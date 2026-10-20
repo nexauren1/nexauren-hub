@@ -1,0 +1,8 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+const email=import.meta.env.PUBLIC_CONTACT_EMAIL;
+---
+<BaseLayout title="Contact Nexauren Hub — Help and Feedback" description="Find support and share feedback about Nexauren Hub online tools and applications.">
+<main id="main-content" class="page-main"><div class="container narrow-container"><nav class="breadcrumbs"><a href="/">Home</a><span>/</span><span>Contact</span></nav><header class="page-hero compact-hero"><span class="eyebrow">WE'D LIKE TO HEAR FROM YOU</span><h1>Questions, ideas or <span class="gradient-text">feedback?</span></h1><p>When reporting a problem, include the tool name, browser and steps that reproduce the issue. Please do not send private files or sensitive data.</p></header>
+<div class="contact-card"><div class="contact-card-icon">✉</div><h2>Get in touch</h2>{email?<p>For questions or feedback, email <a class="text-link" href={`mailto:${email}`}>{email}</a>.</p>:<p>The public support address has not been configured yet. It will appear here when the official contact address is ready.</p>}<div class="note-box"><strong>Reporting a tool issue</strong><p>Include the steps to reproduce the issue and any error message. Avoid attaching confidential information.</p></div><a href="/faq/" class="text-link">Read frequently asked questions ↗</a></div></div></main>
+</BaseLayout>

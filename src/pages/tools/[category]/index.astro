@@ -1,0 +1,15 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import ToolCard from "../../../components/ToolCard.astro";
+import {categories,getToolsByCategory} from "../../../lib/catalog";
+export function getStaticPaths(){return categories.map(category=>({params:{category:category.slug},props:{category}}));}
+const {category}=Astro.props; const entries=getToolsByCategory(category.slug);
+---
+<BaseLayout title={category.seoTitle} description={category.seoDescription}>
+<main id="main-content" class="page-main"><div class="container"><nav class="breadcrumbs"><a href="/">Home</a><span>/</span><a href="/tools/">Tools</a><span>/</span><span>{category.name}</span></nav>
+<section class={`category-hero category-hero-${category.slug}`}><div><span class="eyebrow">{category.eyebrow}</span><h1>{category.title}</h1><p>{category.intro}</p><a class="button button-primary" href="#category-tools">Explore {category.name.toLowerCase()} ↓</a></div><span class="category-hero-symbol">{category.icon}</span></section>
+<div class="category-benefits">{category.benefits.map(b=><span>✓ {b}</span>)}</div>
+<div class="section-heading category-list-heading" id="category-tools"><div><span class="eyebrow">AVAILABLE TOOLS</span><h2>Choose your tool</h2><p>{entries.length} focused tools to help you finish the job.</p></div></div>
+<div class="tools-grid">{entries.map(tool=><ToolCard tool={tool}/>)}</div>
+<article class="content-prose category-seo-copy"><h2>About {category.name.toLowerCase()} on Nexauren Hub</h2><p>{category.description} Each tool page explains its purpose, how to use it and any relevant format or browser limitations. We aim to make routine work easier with clear controls and useful details.</p><p>Choose a tool above to perform the task in your browser. Results and format support can vary by device, source file and browser capabilities.</p><a class="text-link" href="/tools/">Return to all tools ↗</a></article>
+</div></main></BaseLayout>

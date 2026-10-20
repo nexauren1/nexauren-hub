@@ -1,0 +1,8 @@
+{
+  "slug":"audio","name":"Audio tools","label":"AUDIO","icon":"♫","eyebrow":"Sound workflow",
+  "title":"Free online audio tools","description":"Trim supported audio files or convert browser-decodable audio into a convenient WAV file.",
+  "seoTitle":"Free Online Audio Tools — Trim Audio & Convert to WAV | Nexauren",
+  "seoDescription":"Trim audio clips or convert supported sound files to WAV online. Browser-based tools with no account required; codec support depends on your device.",
+  "intro":"Make quick edits to supported audio without uploading recordings to a processing server. Your browser's built-in audio decoder determines which source formats can be opened.",
+  "benefits":["Browser-based processing","Preview before export","Codec support varies by browser"]
+}

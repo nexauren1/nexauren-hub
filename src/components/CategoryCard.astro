@@ -1,0 +1,4 @@
+---
+const {category,count}=Astro.props;
+---
+<a class={`category-card category-${category.slug}`} href={`/tools/${category.slug}/`}><span class="category-card-top"><span class="category-icon">{category.icon}</span><span class="category-count">{count} {count===1?"tool":"tools"}</span></span><span class="category-card-title">{category.name}</span><span class="category-card-description">{category.description}</span><span class="text-link">Explore category <span>↗</span></span></a>

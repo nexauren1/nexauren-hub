@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ToolCard from "../../components/ToolCard.astro";
+import {categories,tools} from "../../lib/catalog";
+const q=Astro.url.searchParams.get("q")||"";
+---
+<BaseLayout title="All Free Online Tools — Nexauren Hub" description="Browse free browser-based image, PDF, text and audio tools. Search the complete Nexauren Hub online tools library.">
+<main id="main-content" class="page-main"><div class="container"><nav class="breadcrumbs"><a href="/">Home</a><span>/</span><span>Tools</span></nav>
+<header class="page-hero compact-hero"><span class="eyebrow">THE TOOL LIBRARY</span><h1>Find your <span class="gradient-text">next useful tool.</span></h1><p>Focused utilities for common tasks. Search by name or browse by category.</p><form class="catalog-search" action="/tools/" method="get" role="search"><span>⌕</span><label class="sr-only" for="tool-search">Search tools</label><input id="tool-search" name="q" type="search" value={q} placeholder="Try “resize image” or “word count”"/><button class="button button-primary" type="submit">Search</button></form></header>
+<div class="filter-row"><span class="results-count"><strong>{tools.length}</strong> tools in the library</span><div class="filter-pills"><a class="filter-pill is-active" href="/tools/">All tools</a>{categories.map(c=><a class="filter-pill" href={`/tools/${c.slug}/`}>{c.name}</a>)}</div></div>
+<div class="tools-grid" data-catalog-grid>{tools.map(tool=><ToolCard tool={tool}/>)}</div><p class="empty-state" data-empty hidden>No tools match that search. Try a different keyword or browse a category.</p>
+</div></main>
+<script>
+const query=new URLSearchParams(location.search).get("q")?.trim().toLowerCase()||"";
+const input=document.querySelector<HTMLInputElement>("#tool-search");
+const cards=[...document.querySelectorAll<HTMLElement>("[data-tool-card]")];
+const empty=document.querySelector<HTMLElement>("[data-empty]");
+const count=document.querySelector<HTMLElement>(".results-count strong");
+function filter(value:string){let visible=0;for(const card of cards){const match=!value||(card.dataset.search||"").includes(value);card.hidden=!match;if(match)visible++;}if(empty)empty.hidden=visible>0;if(count)count.textContent=String(visible);}
+input?.addEventListener("input",()=>filter(input.value.trim().toLowerCase()));filter(query);
+</script>
+</BaseLayout>

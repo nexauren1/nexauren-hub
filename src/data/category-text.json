@@ -1,0 +1,8 @@
+{
+  "slug":"text","name":"Text tools","label":"TEXT","icon":"¶","eyebrow":"Writing utilities",
+  "title":"Free online text tools","description":"Count words, change text case and clean repeated lines in a few clicks.",
+  "seoTitle":"Free Online Text Tools — Word Counter & Text Cleaner | Nexauren",
+  "seoDescription":"Count words and characters, change letter case and remove duplicate lines with free online text tools. Fast, simple and private.",
+  "intro":"Make everyday writing tasks easier. Paste or type your text, choose the operation and copy the result. Text processing takes place locally in your browser.",
+  "benefits":["Instant counts and results","Copy-ready output","No sign-up required"]
+}

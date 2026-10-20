@@ -1,0 +1,28 @@
+---
+import "../styles/global.css";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+const { title = "Nexauren Hub — Free Online Tools", description = "Free online tools for images, PDF, text and audio. Simple, practical and browser-based.", noindex = false, canonicalPath = Astro.url.pathname } = Astro.props;
+const site = Astro.site ?? new URL("https://nexauren-hub.pages.dev");
+const canonical = new URL(canonicalPath,site).toString();
+const schema = {"@context":"https://schema.org","@type":"WebSite","name":"Nexauren Hub","url":site.toString(),"description":"Free browser-based tools for image, PDF, text and audio tasks."};
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="color-scheme" content="dark"/><meta name="theme-color" content="#090d18"/>
+<title>{title}</title><meta name="description" content={description}/>
+{!noindex && <link rel="canonical" href={canonical}/>}
+{noindex && <meta name="robots" content="noindex,nofollow"/>}
+<meta property="og:type" content="website"/><meta property="og:site_name" content="Nexauren Hub"/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:url" content={canonical}/><meta property="og:image" content={new URL("/og/nexauren-hub.svg",site).toString()}/>
+<meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content={title}/><meta name="twitter:description" content={description}/>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"/><link rel="manifest" href="/site.webmanifest"/><link rel="sitemap" type="application/xml" href="/sitemap.xml"/>
+<script type="application/ld+json" set:html={JSON.stringify(schema)}/>
+</head>
+<body><a class="skip-link" href="#main-content">Skip to content</a><SiteHeader/><slot/><SiteFooter/>
+<script>
+const toggle=document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+const menu=document.querySelector<HTMLElement>("[data-site-nav]");
+toggle?.addEventListener("click",()=>{const open=toggle.getAttribute("aria-expanded")==="true";toggle.setAttribute("aria-expanded",String(!open));menu?.classList.toggle("is-open",!open);});
+</script>
+</body></html>
