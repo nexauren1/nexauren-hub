@@ -47,8 +47,8 @@ export function mountTool(root:HTMLElement) {
   const width=root.querySelector<HTMLInputElement>("[data-width]"),height=root.querySelector<HTMLInputElement>("[data-height]"),lock=root.querySelector<HTMLInputElement>("[data-lock]");
   let ratio=1;
   fileInput?.addEventListener("change",async()=>{const file=selected()[0];if(!file)return;try{const bitmap=await createImageBitmap(file);ratio=bitmap.width/bitmap.height;if(width)width.value=String(bitmap.width);if(height)height.value=String(bitmap.height);bitmap.close();updateMessage(`Selected ${file.name} (${file.size.toLocaleString()} bytes).`);}catch{updateMessage("This image could not be opened. Try another supported image.",true);}});
-  width?.addEventListener("input",()=>{if(lock?.checked&&height&&Number(width.value)>0)height.value=String(Math.max(1,Math.round(Number(width.value)/ratio));});
-  height?.addEventListener("input",()=>{if(lock?.checked&&width&&Number(height.value)>0)width.value=String(Math.max(1,Math.round(Number(height.value)*ratio));});
+  width?.addEventListener("input",()=>{if(lock?.checked&&height&&Number(width.value)>0)height.value=String(Math.max(1,Math.round(Number(width.value)/ratio)));});
+  height?.addEventListener("input",()=>{if(lock?.checked&&width&&Number(height.value)>0)width.value=String(Math.max(1,Math.round(Number(height.value)*ratio)));});
   runButton?.addEventListener("click",async()=>{
    const file=selected()[0];if(!file){updateMessage("Choose an image first.",true);return;}
    runButton.disabled=true;runButton.textContent="Processing…";
