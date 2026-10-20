@@ -1,0 +1,62 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.nexauren.archiver'
+    compileSdk 35
+
+    defaultConfig {
+        applicationId 'com.nexauren.archiver'
+        minSdk 23
+        targetSdk 35
+        versionCode 14
+        versionName '0.9.3'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("$buildDir/keystore/release.jks")
+            storePassword System.getenv('ANDROID_KEYSTORE_PASSWORD') ?: ""
+            keyAlias System.getenv('ANDROID_KEY_ALIAS') ?: ""
+            keyPassword System.getenv('ANDROID_KEY_PASSWORD') ?: ""
+        }
+    }
+
+    buildFeatures {
+        aidl true
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug { minifyEnabled false }
+    }
+}
+
+dependencies {
+    implementation 'androidx.core:core:1.16.0'
+    implementation 'org.apache.commons:commons-compress:1.28.0'
+    // Commons Compress marks XZ as optional, but R8 needs it present for 7z support.
+    implementation 'org.tukaani:xz:1.12'
+    implementation 'net.lingala.zip4j:zip4j:2.11.6'
+    // Read/extract RAR and RAR5 archives; RAR creation is intentionally not implemented.
+    implementation 'com.github.junrar:junrar:8.1.2'
+    // Optional, user-authorized access to restricted shared-storage folders.
+    implementation 'dev.rikka.shizuku:api:12.2.0'
+    implementation 'dev.rikka.shizuku:provider:12.2.0'
+}
