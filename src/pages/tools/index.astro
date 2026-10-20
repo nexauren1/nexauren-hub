@@ -13,6 +13,7 @@ const q=Astro.url.searchParams.get("q")||"";
 <script>
 const query=new URLSearchParams(location.search).get("q")?.trim().toLowerCase()||"";
 const input=document.querySelector<HTMLInputElement>("#tool-search");
+if(input) input.value=query;
 const cards=[...document.querySelectorAll<HTMLElement>("[data-tool-card]")];
 const empty=document.querySelector<HTMLElement>("[data-empty]");
 const count=document.querySelector<HTMLElement>(".results-count strong");
