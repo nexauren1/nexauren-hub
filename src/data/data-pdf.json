@@ -1,8 +1,157 @@
 [
- {"id":"merge-pdf","slug":"merge-pdf","category":"pdf","name":"Merge PDF","icon":"＋","tagline":"Combine multiple PDF files","description":"Combine PDF documents into one file in the order selected. Add reports, forms or document sections, then merge their pages. Processing uses pdf-lib in your browser; large PDFs may require substantial device memory.",
- "seoTitle":"Merge PDF Files Online — Combine PDFs for Free | Nexauren","seoDescription":"Combine multiple PDF files into one document online. Choose your files and download a combined PDF in your browser, without an account.",
- "keywords":["merge PDF online","combine PDF files","join PDFs","PDF merger","merge documents"],"features":["Merge multiple PDFs","Create one combined document","Client-side processing","No account required"],"steps":["Select two or more PDF files.","Check the selected file list and its order.","Select Merge PDFs and wait for processing.","Download the combined document."],"mode":"merge-pdf"},
- {"id":"extract-pdf-pages","slug":"extract-pdf-pages","category":"pdf","name":"Extract PDF Pages","icon":"↗","tagline":"Save selected pages into a new PDF","description":"Extract specific PDF pages into a separate document. Enter page numbers and ranges such as 1, 3-5, 8. Page numbering starts at 1 and input is validated before export.",
- "seoTitle":"Extract PDF Pages Online — Save Selected Pages | Nexauren","seoDescription":"Extract selected pages from a PDF into a new document. Use page numbers or ranges and download the result in your browser.",
- "keywords":["extract PDF pages","split PDF pages","save selected PDF pages","PDF page extractor","separate PDF pages"],"features":["Page numbers and ranges","Preserve selected page order","Create a new PDF","No account required"],"steps":["Choose a PDF file.","Enter page ranges, for example 1, 3-5, 8.","Extract and check the selected page count.","Download the new PDF."],"mode":"extract-pdf-pages"}
+  {
+    "id": "merge-pdf",
+    "slug": "merge-pdf",
+    "category": "pdf",
+    "name": "Merge PDF",
+    "icon": "＋",
+    "tagline": "Combine multiple PDF files",
+    "description": "Combine PDF documents into one file in the order selected. Add reports, forms or document sections, then merge their pages. Processing uses pdf-lib in your browser; large PDFs may require substantial device memory.",
+    "seoTitle": "Merge PDF Files Online — Combine PDFs for Free | Nexauren",
+    "seoDescription": "Combine multiple PDF files into one document online. Choose your files and download a combined PDF in your browser, without an account.",
+    "keywords": [
+      "merge PDF online",
+      "combine PDF files",
+      "join PDFs",
+      "PDF merger",
+      "merge documents"
+    ],
+    "features": [
+      "Merge multiple PDFs",
+      "Create one combined document",
+      "Client-side processing",
+      "No account required"
+    ],
+    "steps": [
+      "Select two or more PDF files.",
+      "Check the selected file list and its order.",
+      "Select Merge PDFs and wait for processing.",
+      "Download the combined document."
+    ],
+    "mode": "merge-pdf"
+  },
+  {
+    "id": "extract-pdf-pages",
+    "slug": "extract-pdf-pages",
+    "category": "pdf",
+    "name": "Extract PDF Pages",
+    "icon": "↗",
+    "tagline": "Save selected pages into a new PDF",
+    "description": "Extract specific PDF pages into a separate document. Enter page numbers and ranges such as 1, 3-5, 8. Page numbering starts at 1 and input is validated before export.",
+    "seoTitle": "Extract PDF Pages Online — Save Selected Pages | Nexauren",
+    "seoDescription": "Extract selected pages from a PDF into a new document. Use page numbers or ranges and download the result in your browser.",
+    "keywords": [
+      "extract PDF pages",
+      "split PDF pages",
+      "save selected PDF pages",
+      "PDF page extractor",
+      "separate PDF pages"
+    ],
+    "features": [
+      "Page numbers and ranges",
+      "Preserve selected page order",
+      "Create a new PDF",
+      "No account required"
+    ],
+    "steps": [
+      "Choose a PDF file.",
+      "Enter page ranges, for example 1, 3-5, 8.",
+      "Extract and check the selected page count.",
+      "Download the new PDF."
+    ],
+    "mode": "extract-pdf-pages"
+  },
+  {
+    "id": "rotate-pdf-pages",
+    "slug": "rotate-pdf-pages",
+    "category": "pdf",
+    "name": "Rotate PDF Pages",
+    "icon": "⟳",
+    "tagline": "Rotate selected PDF pages",
+    "description": "Correct sideways pages in a PDF by rotating all pages or selected page numbers and ranges. The page selection is validated before export, and the original PDF remains untouched.",
+    "seoTitle": "Rotate PDF Pages Online — Fix Page Orientation | Nexauren",
+    "seoDescription": "Rotate PDF pages online by 90, 180 or 270 degrees. Choose page ranges and download a corrected PDF in your browser.",
+    "keywords": [
+      "rotate PDF pages",
+      "PDF page rotation",
+      "turn PDF pages",
+      "fix sideways PDF",
+      "rotate PDF online"
+    ],
+    "features": [
+      "Rotate by 90°, 180° or 270°",
+      "All pages or selected ranges",
+      "Keep original PDF untouched",
+      "Browser-based processing"
+    ],
+    "steps": [
+      "Choose a PDF file.",
+      "Choose a rotation angle.",
+      "Enter page ranges or leave blank to rotate every page.",
+      "Apply the rotation and download the result."
+    ],
+    "mode": "rotate-pdf-pages"
+  },
+  {
+    "id": "images-to-pdf",
+    "slug": "images-to-pdf",
+    "category": "pdf",
+    "name": "Images to PDF",
+    "icon": "▧",
+    "tagline": "Combine photos into one PDF document",
+    "description": "Turn one or more supported pictures into a single PDF document. Each image is fitted to a clean page while preserving its proportions. Useful for scanned papers, receipts and photo-based handouts.",
+    "seoTitle": "Images to PDF Online — Convert Photos to PDF | Nexauren",
+    "seoDescription": "Convert JPG, PNG and browser-supported images into a PDF document. Combine multiple pictures into one file for free.",
+    "keywords": [
+      "images to PDF",
+      "JPG to PDF",
+      "PNG to PDF",
+      "convert pictures to PDF",
+      "photos to PDF"
+    ],
+    "features": [
+      "Convert multiple images",
+      "A4 or Letter page size",
+      "Preserve image proportions",
+      "Create a downloadable PDF"
+    ],
+    "steps": [
+      "Choose one or more images.",
+      "Select A4 or Letter page size.",
+      "Create the PDF and check the number of pages.",
+      "Download the document."
+    ],
+    "mode": "images-to-pdf"
+  },
+  {
+    "id": "inspect-pdf",
+    "slug": "inspect-pdf",
+    "category": "pdf",
+    "name": "PDF Inspector",
+    "icon": "⌕",
+    "tagline": "Inspect page count and document metadata",
+    "description": "Review basic information stored inside a PDF, including page count, title, author, creator, producer and file size. This tool inspects document properties; it does not certify a PDF's safety or validate digital signatures.",
+    "seoTitle": "PDF Inspector Online — Check PDF Pages & Metadata | Nexauren",
+    "seoDescription": "Inspect a PDF online to view page count, title, author, creator and file size. A free browser-based PDF information tool.",
+    "keywords": [
+      "PDF metadata viewer",
+      "PDF page count",
+      "inspect PDF online",
+      "PDF properties",
+      "PDF information tool"
+    ],
+    "features": [
+      "Page count and file size",
+      "Title and author where available",
+      "Creator and producer fields",
+      "No document upload"
+    ],
+    "steps": [
+      "Select a PDF file.",
+      "Inspect its document information.",
+      "Review available metadata and page count.",
+      "Close the page when finished; nothing is stored in an account."
+    ],
+    "mode": "inspect-pdf"
+  }
 ]

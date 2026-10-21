@@ -1,8 +1,157 @@
 [
- {"id":"audio-trimmer","slug":"audio-trimmer","category":"audio","name":"Audio Trimmer","icon":"✂","tagline":"Trim an audio clip by time","description":"Cut a supported audio file by entering start and end times in seconds, then export the selected section as WAV. Browser decoding support depends on the format. WAV is uncompressed PCM and may be larger than the original file.",
- "seoTitle":"Audio Trimmer Online — Cut Audio Clips to WAV | Nexauren","seoDescription":"Trim supported audio files by start and end time and export the clip as WAV. Free browser-based audio trimmer.",
- "keywords":["audio trimmer online","cut audio online","trim audio file","WAV cutter","audio clip editor"],"features":["Start and end times in seconds","Preview source audio","WAV export","Local browser decoding"],"steps":["Choose a supported audio file and wait for duration detection.","Enter start and end times in seconds.","Export the selected segment as WAV.","Play or download the result."],"mode":"audio-trimmer"},
- {"id":"audio-to-wav","slug":"audio-to-wav","category":"audio","name":"Audio to WAV Converter","icon":"♫","tagline":"Export supported audio as WAV","description":"Convert audio formats your browser can decode into standard PCM WAV. Useful for editing workflows that require uncompressed audio. Browser codec support varies by operating system and browser; unsupported files are rejected.",
- "seoTitle":"Audio to WAV Converter Online — Free Browser Tool | Nexauren","seoDescription":"Convert audio your browser can decode into PCM WAV. Free online audio-to-WAV conversion with local processing.",
- "keywords":["audio to WAV","convert audio to WAV online","WAV converter","PCM audio converter","browser audio converter"],"features":["PCM WAV output","Browser-side decoding","No account required","Clear format limitations"],"steps":["Choose a supported audio file.","Wait for the browser to decode it.","Convert to WAV.","Download and check the output."],"mode":"audio-to-wav"}
+  {
+    "id": "audio-trimmer",
+    "slug": "audio-trimmer",
+    "category": "audio",
+    "name": "Audio Trimmer",
+    "icon": "✂",
+    "tagline": "Trim an audio clip by time",
+    "description": "Cut a supported audio file by entering start and end times in seconds, then export the selected section as WAV. Browser decoding support depends on the format. WAV is uncompressed PCM and may be larger than the original file.",
+    "seoTitle": "Audio Trimmer Online — Cut Audio Clips to WAV | Nexauren",
+    "seoDescription": "Trim supported audio files by start and end time and export the clip as WAV. Free browser-based audio trimmer.",
+    "keywords": [
+      "audio trimmer online",
+      "cut audio online",
+      "trim audio file",
+      "WAV cutter",
+      "audio clip editor"
+    ],
+    "features": [
+      "Start and end times in seconds",
+      "Preview source audio",
+      "WAV export",
+      "Local browser decoding"
+    ],
+    "steps": [
+      "Choose a supported audio file and wait for duration detection.",
+      "Enter start and end times in seconds.",
+      "Export the selected segment as WAV.",
+      "Play or download the result."
+    ],
+    "mode": "audio-trimmer"
+  },
+  {
+    "id": "audio-to-wav",
+    "slug": "audio-to-wav",
+    "category": "audio",
+    "name": "Audio to WAV Converter",
+    "icon": "♫",
+    "tagline": "Export supported audio as WAV",
+    "description": "Convert audio formats your browser can decode into standard PCM WAV. Useful for editing workflows that require uncompressed audio. Browser codec support varies by operating system and browser; unsupported files are rejected.",
+    "seoTitle": "Audio to WAV Converter Online — Free Browser Tool | Nexauren",
+    "seoDescription": "Convert audio your browser can decode into PCM WAV. Free online audio-to-WAV conversion with local processing.",
+    "keywords": [
+      "audio to WAV",
+      "convert audio to WAV online",
+      "WAV converter",
+      "PCM audio converter",
+      "browser audio converter"
+    ],
+    "features": [
+      "PCM WAV output",
+      "Browser-side decoding",
+      "No account required",
+      "Clear format limitations"
+    ],
+    "steps": [
+      "Choose a supported audio file.",
+      "Wait for the browser to decode it.",
+      "Convert to WAV.",
+      "Download and check the output."
+    ],
+    "mode": "audio-to-wav"
+  },
+  {
+    "id": "audio-joiner",
+    "slug": "audio-joiner",
+    "category": "audio",
+    "name": "Audio Joiner",
+    "icon": "⋈",
+    "tagline": "Join supported audio clips in sequence",
+    "description": "Combine multiple browser-decodable audio clips into a single WAV file in the order selected. The tool resamples clips to a common output rate and keeps their channels where possible. Very large inputs may exceed device memory.",
+    "seoTitle": "Audio Joiner Online — Combine Audio Clips into WAV | Nexauren",
+    "seoDescription": "Join multiple supported audio clips into one WAV file online. Free browser-based audio merger with no account required.",
+    "keywords": [
+      "audio joiner online",
+      "merge audio files",
+      "combine audio clips",
+      "audio merger",
+      "join MP3 files"
+    ],
+    "features": [
+      "Join multiple audio clips",
+      "Sequence follows selected order",
+      "Common WAV sample rate",
+      "Local processing"
+    ],
+    "steps": [
+      "Choose two or more audio clips.",
+      "Check the selected order in the file picker.",
+      "Join the clips and wait for the WAV export.",
+      "Download and play the combined audio."
+    ],
+    "mode": "audio-joiner"
+  },
+  {
+    "id": "audio-speed-changer",
+    "slug": "audio-speed-changer",
+    "category": "audio",
+    "name": "Audio Speed Changer",
+    "icon": "⏩",
+    "tagline": "Make a clip slower or faster",
+    "description": "Change audio playback speed by resampling a supported source and exporting it as WAV. Faster settings shorten the clip and slower settings lengthen it; simple resampling also changes pitch. Preview the source first and listen to the downloaded output.",
+    "seoTitle": "Audio Speed Changer Online — Slow Down or Speed Up Audio | Nexauren",
+    "seoDescription": "Slow down or speed up supported audio files online and export WAV. Playback speed changes pitch; processing runs in your browser.",
+    "keywords": [
+      "audio speed changer",
+      "speed up audio online",
+      "slow down audio",
+      "change audio playback speed",
+      "audio tempo tool"
+    ],
+    "features": [
+      "Speed from 0.5× to 2×",
+      "Estimate new duration",
+      "WAV export",
+      "No server-side file processing"
+    ],
+    "steps": [
+      "Choose a supported audio file.",
+      "Set the speed factor from 0.5× to 2×.",
+      "Export the resampled WAV file.",
+      "Listen to the result and download it."
+    ],
+    "mode": "audio-speed-changer"
+  },
+  {
+    "id": "audio-inspector",
+    "slug": "audio-inspector",
+    "category": "audio",
+    "name": "Audio Inspector",
+    "icon": "∿",
+    "tagline": "View duration, channels, sample rate and levels",
+    "description": "Inspect a supported audio file to see duration, sample rate, channel count, peak level and average signal level. A waveform preview helps reveal silence or a loud section. Readings are made from the audio decoded by your current browser.",
+    "seoTitle": "Audio Inspector Online — View Audio File Properties | Nexauren",
+    "seoDescription": "Check audio duration, sample rate, channels, peak level and waveform online. A free audio file inspector running in your browser.",
+    "keywords": [
+      "audio file information",
+      "audio inspector online",
+      "sample rate checker",
+      "audio duration checker",
+      "waveform viewer"
+    ],
+    "features": [
+      "Duration and sample rate",
+      "Channel count",
+      "Peak and RMS levels",
+      "Waveform preview"
+    ],
+    "steps": [
+      "Choose a supported audio file.",
+      "Wait for the browser to decode it.",
+      "Review the waveform and audio statistics.",
+      "Use the separate trimmer or converter when you need an edited output."
+    ],
+    "mode": "audio-inspector"
+  }
 ]

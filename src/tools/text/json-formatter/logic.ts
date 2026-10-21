@@ -1,0 +1,1 @@
+export function formatJson(value:string,minify=false){let parsed:unknown;try{parsed=JSON.parse(value);}catch(error){const msg=error instanceof Error?error.message:"Invalid JSON";throw new Error("JSON could not be parsed: "+msg);}return minify?JSON.stringify(parsed):JSON.stringify(parsed,nullify=>nullify);}

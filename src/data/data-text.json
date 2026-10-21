@@ -1,11 +1,155 @@
 [
- {"id":"word-counter","slug":"word-counter","category":"text","name":"Word Counter","icon":"≡","tagline":"Count words, characters and sentences","description":"Get live counts of words, characters, characters without spaces, sentences and paragraphs while you write. Useful for essays, social captions, articles and forms with text limits. The tool updates as you type and keeps the text in the current browser page.",
- "seoTitle":"Free Word Counter — Count Words & Characters Online | Nexauren","seoDescription":"Count words, characters, sentences and paragraphs instantly with a free online word counter. Text stays in your browser.",
- "keywords":["word counter","character counter","count words online","essay word count","sentence counter"],"features":["Live word and character counts","Characters with and without spaces","Sentence and paragraph totals","Copy or clear text"],"steps":["Type or paste text into the editor.","Read the live statistics above the editor.","Copy your text or clear the editor to start again."],"mode":"word-counter"},
- {"id":"case-converter","slug":"case-converter","category":"text","name":"Text Case Converter","icon":"Aa","tagline":"Change uppercase, lowercase and title case","description":"Change text into uppercase, lowercase, sentence case or title case without retyping. Review the result, especially for proper names, abbreviations or languages with specialized casing rules.",
- "seoTitle":"Text Case Converter — Uppercase, Lowercase & Title Case | Nexauren","seoDescription":"Convert text to uppercase, lowercase, sentence case or title case online. A free case converter with copy-ready results.",
- "keywords":["uppercase converter","lowercase converter","title case","text case converter","sentence case"],"features":["Uppercase and lowercase","Sentence and title case","Instant output","Copy-ready text"],"steps":["Paste or type your text.","Choose the case transformation.","Review the converted text and copy it."],"mode":"case-converter"},
- {"id":"remove-duplicate-lines","slug":"remove-duplicate-lines","category":"text","name":"Remove Duplicate Lines","icon":"≋","tagline":"Clean repeated lines from lists","description":"Remove repeated lines while preserving the first occurrence and original order. Useful for keywords, notes and exported lists. Choose whether matching should be case-sensitive and whether surrounding spaces should be ignored.",
- "seoTitle":"Remove Duplicate Lines Online — Clean Text Lists | Nexauren","seoDescription":"Remove duplicate lines from text lists online while preserving order. Optional case-sensitive matching and whitespace trimming.",
- "keywords":["remove duplicate lines","deduplicate text","clean list online","remove repeated lines","unique lines"],"features":["Preserve original order","Case-sensitive option","Whitespace-trimming option","Copy cleaned result"],"steps":["Paste a list into the input box.","Choose how lines should be compared.","Remove duplicates and review the count.","Copy the cleaned list."],"mode":"remove-duplicate-lines"}
+  {
+    "id": "word-counter",
+    "slug": "word-counter",
+    "category": "text",
+    "name": "Word Counter",
+    "icon": "≡",
+    "tagline": "Count words, characters and sentences",
+    "description": "Get live counts of words, characters, characters without spaces, sentences and paragraphs while you write. Useful for essays, social captions, articles and forms with text limits. The tool updates as you type and keeps the text in the current browser page.",
+    "seoTitle": "Free Word Counter — Count Words & Characters Online | Nexauren",
+    "seoDescription": "Count words, characters, sentences and paragraphs instantly with a free online word counter. Text stays in your browser.",
+    "keywords": [
+      "word counter",
+      "character counter",
+      "count words online",
+      "essay word count",
+      "sentence counter"
+    ],
+    "features": [
+      "Live word and character counts",
+      "Characters with and without spaces",
+      "Sentence and paragraph totals",
+      "Copy or clear text"
+    ],
+    "steps": [
+      "Type or paste text into the editor.",
+      "Read the live statistics above the editor.",
+      "Copy your text or clear the editor to start again."
+    ],
+    "mode": "word-counter"
+  },
+  {
+    "id": "case-converter",
+    "slug": "case-converter",
+    "category": "text",
+    "name": "Text Case Converter",
+    "icon": "Aa",
+    "tagline": "Change uppercase, lowercase and title case",
+    "description": "Change text into uppercase, lowercase, sentence case or title case without retyping. Review the result, especially for proper names, abbreviations or languages with specialized casing rules.",
+    "seoTitle": "Text Case Converter — Uppercase, Lowercase & Title Case | Nexauren",
+    "seoDescription": "Convert text to uppercase, lowercase, sentence case or title case online. A free case converter with copy-ready results.",
+    "keywords": [
+      "uppercase converter",
+      "lowercase converter",
+      "title case",
+      "text case converter",
+      "sentence case"
+    ],
+    "features": [
+      "Uppercase and lowercase",
+      "Sentence and title case",
+      "Instant output",
+      "Copy-ready text"
+    ],
+    "steps": [
+      "Paste or type your text.",
+      "Choose the case transformation.",
+      "Review the converted text and copy it."
+    ],
+    "mode": "case-converter"
+  },
+  {
+    "id": "remove-duplicate-lines",
+    "slug": "remove-duplicate-lines",
+    "category": "text",
+    "name": "Remove Duplicate Lines",
+    "icon": "≋",
+    "tagline": "Clean repeated lines from lists",
+    "description": "Remove repeated lines while preserving the first occurrence and original order. Useful for keywords, notes and exported lists. Choose whether matching should be case-sensitive and whether surrounding spaces should be ignored.",
+    "seoTitle": "Remove Duplicate Lines Online — Clean Text Lists | Nexauren",
+    "seoDescription": "Remove duplicate lines from text lists online while preserving order. Optional case-sensitive matching and whitespace trimming.",
+    "keywords": [
+      "remove duplicate lines",
+      "deduplicate text",
+      "clean list online",
+      "remove repeated lines",
+      "unique lines"
+    ],
+    "features": [
+      "Preserve original order",
+      "Case-sensitive option",
+      "Whitespace-trimming option",
+      "Copy cleaned result"
+    ],
+    "steps": [
+      "Paste a list into the input box.",
+      "Choose how lines should be compared.",
+      "Remove duplicates and review the count.",
+      "Copy the cleaned list."
+    ],
+    "mode": "remove-duplicate-lines"
+  },
+  {
+    "id": "json-formatter",
+    "slug": "json-formatter",
+    "category": "text",
+    "name": "JSON Formatter",
+    "icon": "{}",
+    "tagline": "Format and validate JSON data",
+    "description": "Format compact JSON with readable indentation or minify it for transmission. Invalid input shows a useful parsing error rather than silently modifying the data. Formatting takes place in the current browser page.",
+    "seoTitle": "JSON Formatter & Validator Online — Free JSON Tool | Nexauren",
+    "seoDescription": "Format, beautify, minify and validate JSON online. See parsing errors and copy clean JSON with this free browser-based tool.",
+    "keywords": [
+      "JSON formatter",
+      "JSON beautifier",
+      "JSON validator online",
+      "minify JSON",
+      "pretty print JSON"
+    ],
+    "features": [
+      "Pretty-print and minify modes",
+      "JSON syntax validation",
+      "Parsing error feedback",
+      "Copy the result"
+    ],
+    "steps": [
+      "Paste JSON into the editor.",
+      "Choose Format or Minify.",
+      "Correct any syntax error shown by the parser.",
+      "Copy the validated result."
+    ],
+    "mode": "json-formatter"
+  },
+  {
+    "id": "text-diff",
+    "slug": "text-diff",
+    "category": "text",
+    "name": "Text Diff Checker",
+    "icon": "⇄",
+    "tagline": "Compare two text passages side by side",
+    "description": "Compare two text versions to spot inserted, removed or changed lines. Paste the original and revised text into separate panels, then review a simple line-based difference report. The comparison runs locally and is best suited to short or medium text.",
+    "seoTitle": "Text Diff Checker Online — Compare Two Texts | Nexauren",
+    "seoDescription": "Compare two text passages online and highlight added or removed lines. Free side-by-side text diff checker for documents and snippets.",
+    "keywords": [
+      "text diff online",
+      "compare two texts",
+      "diff checker",
+      "text comparison tool",
+      "compare documents"
+    ],
+    "features": [
+      "Two separate text panes",
+      "Line-by-line difference summary",
+      "Added and removed lines",
+      "Local comparison"
+    ],
+    "steps": [
+      "Paste the original text into the first panel.",
+      "Paste the revised text into the second panel.",
+      "Compare the texts to see added, removed and unchanged lines.",
+      "Copy or use the difference report to guide your edits."
+    ],
+    "mode": "text-diff"
+  }
 ]
