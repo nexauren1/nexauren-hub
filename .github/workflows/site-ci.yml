@@ -1,4 +1,4 @@
-name: Nexauren Hub — Static Build
+name: Nexauren Hub — Validate and Build
 on:
   push:
     branches: [main]
@@ -16,6 +16,7 @@ jobs:
         with:
           node-version: 20
       - run: npm install
+      - run: npm run validate:catalog
       - run: npm run build
         env:
           SITE_URL: https://nexauren-hub.pages.dev
