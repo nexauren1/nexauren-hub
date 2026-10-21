@@ -1,0 +1,15 @@
+import fs from "node:fs";
+import path from "node:path";
+const dist=path.join(process.cwd(),"dist");
+for(const file of ["robots.txt","sitemap-index.xml"])if(!fs.existsSync(path.join(dist,file)))throw new Error(`Missing generated SEO artifact: dist/${file}`);
+const robots=fs.readFileSync(path.join(dist,"robots.txt"),"utf8");
+if(!/Sitemap:\s*https?:\/\//i.test(robots)||!robots.includes("sitemap-index.xml"))throw new Error("robots.txt must reference the generated sitemap index.");
+const index=fs.readFileSync(path.join(dist,"sitemap-index.xml"),"utf8");
+const sitemapFiles=[...index.matchAll(/<loc>([^<]+\.xml)<\/loc>/g)].map(m=>path.basename(new URL(m[1]).pathname));
+if(!sitemapFiles.length)throw new Error("Sitemap index does not list any sitemap files.");
+const xml=sitemapFiles.map(file=>{const p=path.join(dist,file);if(!fs.existsSync(p))throw new Error(`Sitemap index references missing file: ${file}`);return fs.readFileSync(p,"utf8");}).join("\n");
+for(const route of ["/","/tools/","/apps/","/tools/image/","/tools/pdf/","/tools/text/","/tools/audio/"])if(!xml.includes(route))throw new Error(`Generated sitemap is missing expected route: ${route}`);
+for(const route of ["/login/","/register/","/dashboard/","/upgrade/","/auth/callback/"])if(xml.includes(route))throw new Error(`Account route should not be indexed: ${route}`);
+let pages=0;function walk(dir){for(const e of fs.readdirSync(dir,{withFileTypes:true})){const p=path.join(dir,e.name);if(e.isDirectory())walk(p);else if(e.name==="index.html")pages++;}}walk(dist);
+if(pages<35)throw new Error(`Expected at least 35 built HTML pages, found ${pages}`);
+console.log(`SEO artifacts valid: robots.txt and sitemap index; checked ${pages} generated HTML pages.`);
