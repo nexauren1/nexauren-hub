@@ -5,7 +5,13 @@ import {categories} from "../lib/catalog";
 <a class="brand" href="/" aria-label="Nexauren Hub home"><span class="brand-mark">N</span><span class="brand-word">nexauren<span>hub</span></span></a>
 <button class="menu-toggle" type="button" aria-label="Toggle menu" aria-expanded="false" data-menu-toggle><span></span><span></span><span></span></button>
 <nav class="site-nav" aria-label="Main navigation" data-site-nav>
-<a href="/tools/">Tools</a><div class="nav-dropdown"><a href="/tools/" class="nav-dropdown-label">Categories <span aria-hidden="true">⌄</span></a><div class="nav-dropdown-menu">{categories.map(c=><a href={`/tools/${c.slug}/`}><span class="mini-category-icon">{c.icon}</span>{c.name}</a>)}</div></div>
-<a href="/apps/">Apps</a><a href="/faq/">FAQ</a><a href="/about/">About</a>
-<div class="nav-account"><a class="nav-login" href="/login/">Log in</a><a class="button button-small button-primary" href="/register/">Get started <span aria-hidden="true">↗</span></a></div>
+<a class="nav-tools-home" href="/tools/">All tools</a>
+{categories.map(c=><a class={`nav-category nav-category-${c.slug}`} href={`/tools/${c.slug}/`}>{c.name.replace(" tools","")}</a>)}
+<div class="nav-dropdown nav-more"><button type="button" class="nav-dropdown-label" aria-expanded="false" data-more-toggle>More <span aria-hidden="true">⌄</span></button><div class="nav-dropdown-menu">
+<a href="/faq/"> <span class="mini-category-icon">?</span>Help & FAQ</a>
+<a href="/about/"><span class="mini-category-icon">i</span>About</a>
+<a href="/contact/"><span class="mini-category-icon">↗</span>Contact</a>
+<a href="/apps/" class="nav-apps-link"><span class="mini-category-icon">▣</span>Apps</a>
+</div></div>
+<a class="button button-small button-primary nav-browse-button" href="/tools/">Find a tool <span aria-hidden="true">↗</span></a>
 </nav></div></header>
