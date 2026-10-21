@@ -10,13 +10,13 @@ const schema = {"@context":"https://schema.org","@type":"WebSite","name":"Nexaur
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="color-scheme" content="dark"/><meta name="theme-color" content="#090d18"/>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="color-scheme" content="light"/><meta name="theme-color" content="#ffffff"/>
 <title>{title}</title><meta name="description" content={description}/>
 {!noindex && <link rel="canonical" href={canonical}/>}
 {noindex && <meta name="robots" content="noindex,nofollow"/>}
 <meta property="og:type" content="website"/><meta property="og:site_name" content="Nexauren Hub"/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:url" content={canonical}/><meta property="og:image" content={new URL("/og/nexauren-hub.svg",site).toString()}/>
 <meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content={title}/><meta name="twitter:description" content={description}/>
-<link rel="icon" type="image/svg+xml" href="/favicon.svg"/><link rel="manifest" href="/site.webmanifest"/><link rel="sitemap" type="application/xml" href="/sitemap.xml"/>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"/><link rel="manifest" href="/site.webmanifest"/><link rel="sitemap" type="application/xml" href="/sitemap-index.xml"/>
 <script type="application/ld+json" set:html={JSON.stringify(schema)}></script>
 </head>
 <body><a class="skip-link" href="#main-content">Skip to content</a><SiteHeader/><slot/><SiteFooter/>
