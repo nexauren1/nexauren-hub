@@ -1,4 +1,4 @@
-name: Nexauren Hub — Validate and Build
+name: Nexauren Hub — Validate, Build and Check SEO
 on:
   push:
     branches: [main]
