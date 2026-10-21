@@ -24,5 +24,11 @@ const schema = {"@context":"https://schema.org","@type":"WebSite","name":"Nexaur
 const toggle=document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
 const menu=document.querySelector<HTMLElement>("[data-site-nav]");
 toggle?.addEventListener("click",()=>{const open=toggle.getAttribute("aria-expanded")==="true";toggle.setAttribute("aria-expanded",String(!open));menu?.classList.toggle("is-open",!open);});
+const moreToggle=document.querySelector<HTMLButtonElement>("[data-more-toggle]");
+const moreMenu=moreToggle?.closest<HTMLElement>(".nav-dropdown");
+const closeMore=()=>{moreMenu?.classList.remove("is-open");moreToggle?.setAttribute("aria-expanded","false");};
+moreToggle?.addEventListener("click",()=>{const open=moreToggle.getAttribute("aria-expanded")==="true";moreToggle.setAttribute("aria-expanded",String(!open));moreMenu?.classList.toggle("is-open",!open);});
+document.addEventListener("click",(event)=>{if(moreMenu&&!moreMenu.contains(event.target as Node))closeMore();});
+document.addEventListener("keydown",(event)=>{if(event.key==="Escape"){closeMore();if(menu?.classList.contains("is-open")){menu.classList.remove("is-open");toggle?.setAttribute("aria-expanded","false");}}});
 </script>
 </body></html>
