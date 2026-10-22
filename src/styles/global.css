@@ -302,3 +302,16 @@ body:before{background:
  .queue-move-button{width:27px;height:27px}
 }
 @media(prefers-reduced-motion:reduce){.tool-card:hover,.category-card:hover,.button:hover:not(:disabled){transform:none!important;transition:none!important}}
+
+
+/* Extra text utilities: shared responsive editor surfaces. */
+.utility-text-workbench{display:grid;gap:16px;align-content:start}
+.utility-text-workbench textarea{width:100%;min-height:120px;resize:vertical;padding:14px 15px;border:1px solid #dfe3f0;border-radius:13px;background:#fff;color:#19213a;font:inherit;line-height:1.65;box-sizing:border-box}
+.utility-text-workbench textarea:focus{outline:none;border-color:#8b5cf6;box-shadow:0 0 0 3px #8b5cf61c}
+.utility-text-workbench .json-actions{display:flex;flex-wrap:wrap;gap:9px}
+.utility-text-workbench .result-message{min-height:1.4em;margin:0;color:#59647e;font-size:.84rem}
+.utility-text-workbench [data-message].is-error{color:#b4233e}
+.utility-text-workbench [data-message]:not(.is-error){color:#0f8b79}
+.utility-text-workbench .field-hint{margin:0;color:#7b859c;font-size:.78rem;line-height:1.55}
+.utility-text-workbench .field-grid>div{align-self:center;padding:12px 14px;border:1px solid #f2dfa1;border-radius:12px;background:linear-gradient(120deg,#fff9e8,#fff5f7)}
+@media(max-width:600px){.utility-text-workbench .json-actions{display:grid;grid-template-columns:1fr}.utility-text-workbench .json-actions .button{width:100%}}
