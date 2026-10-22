@@ -173,7 +173,7 @@ export function mountTool(root:HTMLElement){
   button?.addEventListener("click",()=>{const input=root.querySelector<HTMLTextAreaElement>("[data-input-text]"),result=root.querySelector<HTMLTextAreaElement>("[data-result-text]");const value=input?.value||"";const res=deduplicateLines(value,!!root.querySelector<HTMLInputElement>("[data-case-sensitive]")?.checked,!!root.querySelector<HTMLInputElement>("[data-trim-lines]")?.checked);if(result)result.value=res.text;status("Removed "+res.removed+" duplicate lines from "+res.total+" input lines.");});
  }
  if(mode==="json-formatter"){
-  root.querySelectorAll<HTMLButtonElement>("[data-json-action]").forEach(p=>p.addEventListener("click",()=>{const input=root.querySelector<HTMLTextAreaElement>("[data-input-text]"),result=root.querySelector<HTMLTextAreaElement>("[data-result-text]");try{if(!input||!result)throw new Error("Editor is unavailable.");result.value=formatJson(input.value,p.dataset.jsonAction==="minify");status("Valid JSON · "+(p.dataset.jsonAction==="minify"?"minified":"formatted")+" successfully.");}catch(e){catchError(e);}}));
+  root.querySelectorAll<HTMLButtonElement>("[data-json-action]").forEach(p=>p.addEventListener("click",()=>{const input=root.querySelector<HTMLTextAreaElement>("[data-input-text]"),result=root.querySelector<HTMLTextAreaElement>("[data-result-text]");try{if(!input||!result)throw new Error("Editor is unavailable.");result.value=formatJson(input.value,p.dataset.jsonAction==="minify",p.dataset.jsonAction==="sort");status("Valid JSON · "+(p.dataset.jsonAction==="minify"?"minified":p.dataset.jsonAction==="sort"?"sorted by key and formatted":"formatted")+" successfully.");}catch(e){catchError(e);}}));
  }
  if(mode==="text-diff"){
   let report="";
