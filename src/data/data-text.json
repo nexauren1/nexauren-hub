@@ -155,5 +155,125 @@
       "Copy or use the difference report to guide your edits."
     ],
     "mode": "text-diff"
+  },
+  {
+    "id": "url-encoder",
+    "slug": "url-encoder",
+    "category": "text",
+    "name": "URL Encoder & Decoder",
+    "icon": "%↔",
+    "tagline": "Encode or decode text for safe URLs",
+    "description": "Encode text for use in URL components or decode percent-encoded values back into readable text. Useful for query parameters, links and debugging web requests. The conversion runs locally in your browser.",
+    "seoTitle": "URL Encoder & Decoder Online — Percent Encode Text | Nexauren",
+    "seoDescription": "Encode text for URL components or decode percent-encoded strings online. Free browser-based URL encoder and decoder for query parameters.",
+    "keywords": [
+      "URL encoder",
+      "URL decoder",
+      "percent encoding online",
+      "encode URL component",
+      "decode URL parameters"
+    ],
+    "features": [
+      "Percent-encode text for URL components",
+      "Decode encoded URL text",
+      "Clear error feedback for invalid encoding",
+      "Local browser processing"
+    ],
+    "steps": [
+      "Paste the text or encoded value into the input box.",
+      "Choose Encode or Decode.",
+      "Review the result and copy it when ready."
+    ],
+    "mode": "url-encoder"
+  },
+  {
+    "id": "base64-converter",
+    "slug": "base64-converter",
+    "category": "text",
+    "name": "Base64 Encoder & Decoder",
+    "icon": "B64",
+    "tagline": "Convert text to Base64 and back",
+    "description": "Encode plain text into Base64 or decode a Base64 value into readable Unicode text. This utility handles UTF-8 text and runs in the current browser tab. Base64 is an encoding format, not encryption.",
+    "seoTitle": "Base64 Encoder & Decoder Online — UTF-8 Text | Nexauren",
+    "seoDescription": "Encode UTF-8 text as Base64 or decode Base64 back into readable text. Free online Base64 converter that runs in your browser.",
+    "keywords": [
+      "Base64 encoder",
+      "Base64 decoder",
+      "encode text Base64",
+      "decode Base64 online",
+      "UTF-8 Base64"
+    ],
+    "features": [
+      "Encode Unicode text to Base64",
+      "Decode Base64 into readable text",
+      "Handles UTF-8 characters",
+      "Runs locally in the browser"
+    ],
+    "steps": [
+      "Enter text or a Base64 string.",
+      "Select Encode or Decode.",
+      "Review the result; remember Base64 does not encrypt sensitive data."
+    ],
+    "mode": "base64-converter"
+  },
+  {
+    "id": "slug-generator",
+    "slug": "slug-generator",
+    "category": "text",
+    "name": "URL Slug Generator",
+    "icon": "↗",
+    "tagline": "Turn titles into clean URL slugs",
+    "description": "Convert a title or phrase into a readable URL slug with lowercase letters, normalized accents and hyphen separators. Useful for article paths, filenames and clean links. Always review the result for names and language-specific spelling.",
+    "seoTitle": "URL Slug Generator — Create Clean SEO-Friendly Slugs | Nexauren",
+    "seoDescription": "Generate clean URL slugs from titles and phrases. Normalize accents, lowercase text and create readable hyphen-separated URLs for free.",
+    "keywords": [
+      "URL slug generator",
+      "SEO slug generator",
+      "permalink generator",
+      "title to slug",
+      "clean URL"
+    ],
+    "features": [
+      "Normalize common accented characters",
+      "Convert text to lowercase",
+      "Replace spaces and punctuation with hyphens",
+      "Generate a copy-ready slug locally"
+    ],
+    "steps": [
+      "Paste a title or phrase.",
+      "Choose Generate slug.",
+      "Review the output and copy the slug into your URL editor."
+    ],
+    "mode": "slug-generator"
+  },
+  {
+    "id": "uuid-generator",
+    "slug": "uuid-generator",
+    "category": "text",
+    "name": "UUID Generator",
+    "icon": "#1",
+    "tagline": "Generate unique random identifiers",
+    "description": "Generate random UUID v4 identifiers in your browser for test data, development, and sample records. Choose how many to create and copy the output as a newline-separated list. UUIDs are generated locally and are not registered with any service.",
+    "seoTitle": "UUID v4 Generator Online — Create Random IDs | Nexauren",
+    "seoDescription": "Generate random UUID v4 identifiers online for testing, development and sample data. Create multiple IDs and copy them instantly for free.",
+    "keywords": [
+      "UUID generator",
+      "UUID v4 online",
+      "random ID generator",
+      "GUID generator",
+      "generate UUIDs"
+    ],
+    "features": [
+      "Generate random UUID v4 values",
+      "Create up to 50 identifiers at once",
+      "Copy newline-separated output",
+      "No account or server request needed"
+    ],
+    "steps": [
+      "Choose how many identifiers to generate.",
+      "Select Generate UUIDs.",
+      "Copy the output into your test data or development workflow."
+    ],
+    "mode": "uuid-generator"
   }
 ]
