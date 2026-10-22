@@ -9,4 +9,4 @@ for(const category of ["image","pdf","text","audio"]){
  const pages=fs.readdirSync(dir,{withFileTypes:true}).filter(e=>e.isDirectory()&&fs.existsSync(path.join(dir,e.name,"index.html")));
  if(pages.length<5)throw new Error(`Expected at least 5 built ${category} tool pages; found ${pages.length}`);
 }
-console.log("Build output valid: homepage, app directory and all 20 individual tool pages exist.");
+console.log("Build output valid: homepage, app directory and all generated category tool pages exist.");
