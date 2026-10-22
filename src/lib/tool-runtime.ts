@@ -214,6 +214,34 @@ export function mountTool(root:HTMLElement){
   root.querySelector("[data-copy-diff]")?.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(report);status("Difference report copied.");}catch{status("Clipboard access was denied.",true);}});
  }
  if(mode==="audio-trimmer"||mode==="audio-to-wav"||mode==="audio-joiner"||mode==="audio-speed-changer"||mode==="audio-inspector"){
+  let orderedAudioClips:File[]=[];
+  const renderAudioQueue=()=>{
+   const list=root.querySelector<HTMLElement>("[data-selected-list]"),count=root.querySelector<HTMLElement>("[data-list-count]");
+   if(count)count.textContent=orderedAudioClips.length+" clip"+(orderedAudioClips.length===1?"":"s");
+   if(!list)return;
+   list.replaceChildren();
+   if(!orderedAudioClips.length){const blank=document.createElement("div");blank.className="queue-empty";blank.textContent="Choose two or more clips to create a playlist.";list.append(blank);return;}
+   orderedAudioClips.forEach((file,index)=>{
+    const row=document.createElement("div");row.className="selected-file-row";
+    const num=document.createElement("span");num.className="file-order";num.textContent=String(index+1).padStart(2,"0");
+    const detail=document.createElement("span");detail.className="selected-file-detail";
+    const name=document.createElement("strong");name.textContent=file.name;
+    const size=document.createElement("small");size.textContent=(file.size/1024).toFixed(1)+" KB";
+    detail.append(name,size);
+    const actions=document.createElement("div");actions.className="queue-row-actions";
+    const makeAction=(action:string,label:string,title:string,disabled:boolean)=>{
+     const control=document.createElement("button");control.type="button";control.className="queue-move-button";control.textContent=label;control.title=title;control.setAttribute("aria-label",title);control.disabled=disabled;
+     control.addEventListener("click",()=>{
+      if(action==="remove"){orderedAudioClips.splice(index,1);}
+      else {const next=action==="up"?index-1:index+1;if(next<0||next>=orderedAudioClips.length)return;[orderedAudioClips[index],orderedAudioClips[next]]=[orderedAudioClips[next],orderedAudioClips[index]];}
+      renderAudioQueue();
+     });
+     return control;
+    };
+    actions.append(makeAction("up","↑","Move "+file.name+" up",index===0),makeAction("down","↓","Move "+file.name+" down",index===orderedAudioClips.length-1),makeAction("remove","×","Remove "+file.name,false));
+    row.append(num,detail,actions);list.append(row);
+   });
+  };
   let decoded:AudioBuffer|null=null;
   const preview=root.querySelector<HTMLAudioElement>("[data-preview]");
   let originalPreviewUrl:string|null=null;
@@ -243,7 +271,7 @@ export function mountTool(root:HTMLElement){
   const updateSpeed=()=>{const v=Number(speed?.value||1),val=root.querySelector<HTMLElement>("[data-speed-value]"),label=root.querySelector<HTMLElement>("[data-speed-label]"),duration=root.querySelector<HTMLElement>("[data-speed-duration]");if(val)val.textContent=v.toFixed(1)+"×";if(label)label.textContent=v===1?"Normal speed":v<1?"Slower · lower pitch":"Faster · higher pitch";if(duration)duration.textContent=decoded?formatTime(decoded.duration/v):"Load audio first";};
   speed?.addEventListener("input",updateSpeed);
   fileInput?.addEventListener("change",async()=>{
-   const files=allFiles();if(mode==="audio-joiner"){setSelectedList("[data-selected-list]",files);status(files.length+" clips selected. The sequence follows the file picker.");if(files.length<2)return;decoded=null;return;}
+   const files=allFiles();if(mode==="audio-joiner"){orderedAudioClips=[...files];renderAudioQueue();status(files.length+" clips selected. Use the arrows to set the playlist order.");if(files.length<2)return;decoded=null;return;}
    const file=files[0];if(!file)return;status("Decoding audio…");
    try{decoded=await decodeAudio(file);if(preview){if(originalPreviewUrl)URL.revokeObjectURL(originalPreviewUrl);if(segmentPreviewUrl){URL.revokeObjectURL(segmentPreviewUrl);segmentPreviewUrl=null;}originalPreviewUrl=URL.createObjectURL(file);preview.onended=null;preview.src=originalPreviewUrl;preview.hidden=false;}if(info){info.hidden=false;info.textContent=formatTime(decoded.duration)+" · "+decoded.sampleRate.toLocaleString()+" Hz · "+decoded.numberOfChannels+" channel(s)";}const end=root.querySelector<HTMLInputElement>("[data-end]");if(end)end.value=decoded.duration.toFixed(2);const start=root.querySelector<HTMLInputElement>("[data-start]");if(start&&Number(start.value)>=decoded.duration)start.value="0";updateSpeed();
     if(mode==="audio-inspector"){const data=inspectAudio(decoded);const values:[string,string][]=[["[data-inspect-duration]",formatTime(data.duration)],["[data-inspect-rate]",data.sampleRate.toLocaleString()+" Hz"],["[data-inspect-channels]",String(data.channels)],["[data-inspect-peak]",(data.peak*100).toFixed(1)+"%"],["[data-inspect-rms]",(data.rms*100).toFixed(1)+"%"],["[data-inspect-frames]",data.frames.toLocaleString()]];values.forEach(([selector,value])=>{const el=root.querySelector<HTMLElement>(selector);if(el)el.textContent=value;});const hint=root.querySelector<HTMLElement>("[data-inspect-hint]");if(hint)hint.textContent="Peak "+(data.peak*100).toFixed(1)+"% · RMS "+(data.rms*100).toFixed(1)+"% · Levels are calculated from decoded samples.";const canvas=root.querySelector<HTMLCanvasElement>("[data-waveform]");if(canvas){const ctx=canvas.getContext("2d");if(ctx){ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle="#fff1f2";ctx.fillRect(0,0,canvas.width,canvas.height);const channel=decoded.getChannelData(0),bars=canvas.width,step=Math.max(1,Math.floor(channel.length/bars));ctx.strokeStyle="#d92344";ctx.lineWidth=1.4;ctx.beginPath();for(let i=0;i<bars;i++){let peak=0;for(let j=0;j<step&&i*step+j<channel.length;j++)peak=Math.max(peak,Math.abs(channel[i*step+j]));const y=canvas.height/2,amp=Math.max(1,peak*(canvas.height*.44));ctx.moveTo(i+.5,y-amp);ctx.lineTo(i+.5,y+amp);}ctx.stroke();}}}
@@ -253,7 +281,7 @@ export function mountTool(root:HTMLElement){
   button?.addEventListener("click",async()=>{
    try{
     if(mode==="audio-joiner"){
-      const files=allFiles();if(files.length<2)throw new Error("Choose at least two audio clips.");setBusy(true,"Decoding clips…");const buffers:AudioBuffer[]=[];for(const f of files)buffers.push(await decodeAudio(f));const blob=joinAudioBuffers(buffers);makeDownload(blob,"joined-audio.wav",files.length+" clips joined in selected order · "+(blob.size/1024).toFixed(1)+" KB.");return;
+      const files=orderedAudioClips;if(files.length<2)throw new Error("Choose at least two audio clips.");setBusy(true,"Decoding clips…");const buffers:AudioBuffer[]=[];for(const f of files)buffers.push(await decodeAudio(f));const blob=joinAudioBuffers(buffers);makeDownload(blob,"joined-audio.wav",files.length+" clips joined in selected order · "+(blob.size/1024).toFixed(1)+" KB.");return;
     }
     if(!decoded)throw new Error("Choose a supported audio file first.");
     if(mode==="audio-trimmer"){const blob=trimAudio(decoded,Number(root.querySelector<HTMLInputElement>("[data-start]")?.value||0),Number(root.querySelector<HTMLInputElement>("[data-end]")?.value||0));makeDownload(blob,"trimmed-audio.wav","Selected section · "+(blob.size/1024).toFixed(1)+" KB.");}
