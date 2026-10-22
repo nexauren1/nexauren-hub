@@ -98,28 +98,29 @@
     "category": "image",
     "name": "Image Cropper",
     "icon": "▣",
-    "tagline": "Crop an image to the exact area you need",
-    "description": "Crop an image by setting the left, top, width and height in pixels. This gives you precise control over the visible area for thumbnails, profile images, web graphics and documents. The crop is rendered locally in your browser, without changing the source file.",
-    "seoTitle": "Crop Images Online — Precise Free Image Cropper | Nexauren",
-    "seoDescription": "Crop images online using exact pixel coordinates and dimensions. Free browser-based image cropper for photos and graphics.",
+    "tagline": "Crop images with exact dimensions or familiar ratios",
+    "description": "Crop images with pixel-precise coordinates or choose popular aspect ratios for square avatars, 4:3 photos, 3:2 photography and 16:9 video thumbnails. Preview the original dimensions, choose an output format and export locally in your browser.",
+    "seoTitle": "Crop Images Online — Pixel Controls & Aspect Ratio Presets | Nexauren",
+    "seoDescription": "Crop images online with exact pixel controls and 1:1, 4:3, 3:2 or 16:9 presets. Free browser-based image cropper.",
     "keywords": [
       "crop image online",
       "image cropper",
+      "crop image aspect ratio",
+      "square image cropper",
       "crop photo pixels",
-      "cut image",
-      "crop picture"
+      "16:9 image crop"
     ],
     "features": [
       "Pixel-precise crop area",
-      "Preview the source image",
-      "JPG, PNG and WebP output",
-      "Original file remains unchanged"
+      "1:1, 4:3, 3:2 and 16:9 presets",
+      "Preview source image and dimensions",
+      "JPG, PNG and WebP output"
     ],
     "steps": [
       "Choose an image and review its dimensions.",
-      "Enter the crop left, top, width and height in pixels.",
-      "Choose an output format and crop the image.",
-      "Download the cropped result."
+      "Choose a crop ratio or keep Free for custom dimensions.",
+      "Adjust the crop coordinates and choose the output format.",
+      "Download and check the cropped result."
     ],
     "mode": "image-cropper"
   },
