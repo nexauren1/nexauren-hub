@@ -3,7 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import CategoryCard from "../components/CategoryCard.astro";
 import ToolCard from "../components/ToolCard.astro";
 import {categories,tools,getToolsByCategory} from "../lib/catalog";
-const featuredIds=["image-resizer","image-compressor","merge-pdf","extract-pdf-pages","word-counter","json-formatter","audio-trimmer","audio-to-wav"];
+const featuredIds=["image-resizer","image-compressor","merge-pdf","extract-pdf-pages","word-counter","json-formatter","url-encoder","uuid-generator"];
 const featured=featuredIds.map(id=>tools.find(t=>t.id===id)).filter(Boolean);
 ---
 <BaseLayout title="Free Online Tools for Images, PDF, Text & Audio | Nexauren Hub" description="Use free online tools to resize and compress images, work with PDFs, clean and compare text, and trim or convert audio. Simple tools with clear controls and browser-side processing where supported.">
