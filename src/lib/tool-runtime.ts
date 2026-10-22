@@ -9,7 +9,7 @@ import { deduplicateLines } from "../tools/text/remove-duplicate-lines/logic";
 import { formatJson } from "../tools/text/json-formatter/logic";
 import { compareText } from "../tools/text/text-diff/logic";
 import { mergePdfs } from "../tools/pdf/merge-pdf/logic";
-import { extractPdfPages } from "../tools/pdf/extract-pdf-pages/logic";
+import { extractPdfPages, removePdfPages } from "../tools/pdf/extract-pdf-pages/logic";
 import { rotatePdfPages } from "../tools/pdf/rotate-pdf-pages/logic";
 import { imagesToPdf } from "../tools/pdf/images-to-pdf/logic";
 import { inspectPdf } from "../tools/pdf/inspect-pdf/logic";
@@ -107,12 +107,30 @@ export function mountTool(root:HTMLElement){
  if(mode==="merge-pdf"||mode==="extract-pdf-pages"||mode==="rotate-pdf-pages"||mode==="images-to-pdf"||mode==="inspect-pdf"){
   fileInput?.addEventListener("change",()=>{const files=allFiles();if(mode==="merge-pdf"||mode==="audio-joiner")setSelectedList("[data-selected-list]",files);if(mode==="images-to-pdf"){const count=root.querySelector<HTMLElement>("[data-list-count]");if(count)count.textContent=files.length+" picture"+(files.length===1?"":"s")+" selected";}if(mode==="inspect-pdf"&&files[0])status("Selected "+files[0].name+" · "+(files[0].size/1024).toFixed(1)+" KB.");});
   root.querySelectorAll<HTMLButtonElement>("[data-pdf-angle]").forEach(p=>p.addEventListener("click",()=>{root.querySelectorAll("[data-pdf-angle]").forEach(el=>el.classList.toggle("is-selected",el===p));}));
+  const pageActionInputs=Array.from(root.querySelectorAll<HTMLInputElement>("[data-page-action]"));
+  const pageActionButtonLabel=()=>root.querySelector<HTMLButtonElement>("[data-run]")?.textContent;
+  const updatePageAction=()=>{
+   const action=pageActionInputs.find(input=>input.checked)?.value||"extract";
+   if(button)button.textContent=action==="remove"?"Remove selected pages →":"Extract selected pages →";
+  };
+  pageActionInputs.forEach(input=>input.addEventListener("change",updatePageAction));
+  if(mode==="extract-pdf-pages")updatePageAction();
   button?.addEventListener("click",async()=>{
    const files=allFiles();if(!files.length){status(mode==="images-to-pdf"?"Choose at least one image first.":"Choose a source file first.",true);return;}
    setBusy(true,"Processing…");
    try{
     if(mode==="merge-pdf"){const blob=await mergePdfs(files);makeDownload(blob,"merged-document.pdf","Combined "+files.length+" PDF files · "+(blob.size/1024).toFixed(1)+" KB.");}
-    if(mode==="extract-pdf-pages"){const blob=await extractPdfPages(files[0],root.querySelector<HTMLInputElement>("[data-pages]")?.value||"");makeDownload(blob,"extracted-pages.pdf","Selected pages · "+(blob.size/1024).toFixed(1)+" KB.");}
+    if(mode==="extract-pdf-pages"){
+     const range=root.querySelector<HTMLInputElement>("[data-pages]")?.value||"";
+     const action=root.querySelector<HTMLInputElement>("[data-page-action]:checked")?.value||"extract";
+     if(action==="remove"){
+      const blob=await removePdfPages(files[0],range);
+      makeDownload(blob,"pages-removed.pdf","A new PDF without the selected pages · "+(blob.size/1024).toFixed(1)+" KB.");
+     }else{
+      const blob=await extractPdfPages(files[0],range);
+      makeDownload(blob,"extracted-pages.pdf","Selected pages · "+(blob.size/1024).toFixed(1)+" KB.");
+     }
+    }
     if(mode==="rotate-pdf-pages"){const angle=Number(root.querySelector<HTMLButtonElement>("[data-pdf-angle].is-selected")?.dataset.pdfAngle||90),range=root.querySelector<HTMLInputElement>("[data-pages]")?.value||"";const blob=await rotatePdfPages(files[0],range,angle);makeDownload(blob,"rotated-pages.pdf","Rotation applied: "+angle+"° · "+(range.trim()?"Selected pages":"All pages")+".");}
     if(mode==="images-to-pdf"){const size=root.querySelector<HTMLInputElement>("[data-page-size]:checked")?.value||"a4";const blob=await imagesToPdf(files,size);makeDownload(blob,"images-document.pdf",files.length+" images converted to PDF · "+(blob.size/1024).toFixed(1)+" KB.");}
     if(mode==="inspect-pdf"){if(files[0].size>100*1024*1024)throw new Error("Choose a PDF under 100 MB.");const data=await inspectPdf(files[0]);showDetails([["File",data.name],["File size",(data.size/1024).toFixed(1)+" KB"],["Pages",String(data.pages)],["Title",data.title],["Author",data.author],["Subject",data.subject],["Creator",data.creator],["Producer",data.producer],["Created",data.created],["Modified",data.modified]]);}
