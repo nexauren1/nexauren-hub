@@ -18,6 +18,10 @@ import { convertAudioToWav } from "../tools/audio/audio-to-wav/logic";
 import { joinAudioBuffers } from "../tools/audio/audio-joiner/logic";
 import { changeAudioSpeed } from "../tools/audio/audio-speed-changer/logic";
 import { inspectAudio } from "../tools/audio/audio-inspector/logic";
+import { encodeUrlComponent, decodeUrlComponent } from "../tools/text/url-encoder/logic";
+import { encodeBase64, decodeBase64 } from "../tools/text/base64-converter/logic";
+import { generateSlug } from "../tools/text/slug-generator/logic";
+import { generateUuids } from "../tools/text/uuid-generator/logic";
 
 type AudioContextConstructor = typeof AudioContext & { new(options?:AudioContextOptions): AudioContext };
 async function decodeAudio(file:File):Promise<AudioBuffer>{
@@ -290,5 +294,32 @@ export function mountTool(root:HTMLElement){
    }catch(e){catchError(e);}finally{setBusy(false,mode==="audio-trimmer"?"Cut selected segment →":mode==="audio-to-wav"?"Convert audio → WAV":mode==="audio-joiner"?"Join audio clips →":"Export at this speed →");}
   });
  }
+
+ if(mode==="url-encoder"){
+  root.querySelectorAll<HTMLButtonElement>("[data-url-action]").forEach(control=>control.addEventListener("click",()=>{
+   const input=root.querySelector<HTMLTextAreaElement>("[data-input-text]"),result=root.querySelector<HTMLTextAreaElement>("[data-result-text]");
+   try{if(!input||!result)throw new Error("Text editor is unavailable.");result.value=control.dataset.urlAction==="decode"?decodeUrlComponent(input.value):encodeUrlComponent(input.value);status(control.dataset.urlAction==="decode"?"URL component decoded.":"Text encoded for use in a URL component.");}catch(error){catchError(error);}
+  }));
+ }
+ if(mode==="base64-converter"){
+  root.querySelectorAll<HTMLButtonElement>("[data-base64-action]").forEach(control=>control.addEventListener("click",()=>{
+   const input=root.querySelector<HTMLTextAreaElement>("[data-input-text]"),result=root.querySelector<HTMLTextAreaElement>("[data-result-text]");
+   try{if(!input||!result)throw new Error("Text editor is unavailable.");result.value=control.dataset.base64Action==="decode"?decodeBase64(input.value):encodeBase64(input.value);status(control.dataset.base64Action==="decode"?"Base64 decoded as UTF-8 text.":"Text encoded as Base64.");}catch(error){catchError(error);}
+  }));
+ }
+ if(mode==="slug-generator"){
+  root.querySelector<HTMLButtonElement>("[data-generate-slug]")?.addEventListener("click",()=>{
+   const input=root.querySelector<HTMLTextAreaElement>("[data-input-text]"),result=root.querySelector<HTMLTextAreaElement>("[data-result-text]");
+   if(result)result.value=generateSlug(input?.value||"");
+   status(result?.value?"Slug generated. Review spelling before publishing.":"Enter a title or phrase first.",!result?.value);
+  });
+ }
+ if(mode==="uuid-generator"){
+  root.querySelector<HTMLButtonElement>("[data-generate-uuid]")?.addEventListener("click",()=>{
+   const count=Number(root.querySelector<HTMLInputElement>("[data-uuid-count]")?.value||5),result=root.querySelector<HTMLTextAreaElement>("[data-result-text]");
+   try{if(!result)throw new Error("Output editor is unavailable.");result.value=generateUuids(count).join("\\n");status("Generated "+count+" random UUID v4 identifiers.");}catch(error){catchError(error);}
+  });
+ }
+
  root.querySelector<HTMLButtonElement>("[data-copy]")?.addEventListener("click",async()=>{const value=root.querySelector<HTMLTextAreaElement>("[data-result-text]")?.value||"";if(!value){status("There is no result to copy yet.",true);return;}try{await navigator.clipboard.writeText(value);status("Copied to clipboard.");}catch{status("Clipboard access was denied.",true);}});
 }
