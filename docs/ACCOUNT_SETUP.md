@@ -14,12 +14,12 @@ Firebase web configuration values are intended to be present in browser applicat
 
 1. Go to Authentication → Sign-in method (or Sign-in providers).
 2. Enable **Email/Password**.
-3. In Authentication → Templates, review the email verification and password reset templates and sender details.
+3. In Authentication → Templates, open **Email address verification** and **Password reset**. For each template, use **Customize action URL** to set the custom handler URL to your deployed Nexauren page: `/auth/callback/` for email verification and `/reset-password/` for password reset. Firebase appends the `mode` and `oobCode` parameters to these URLs. Review the sender details too.
 4. In Authentication → Settings, confirm the project's email action URL behavior. The site uses these routes:
    - Email verification: `https://YOUR-DOMAIN/auth/callback/?mode=verifyEmail&oobCode=...` (Firebase appends its action parameters).
    - Password recovery: `https://YOUR-DOMAIN/reset-password/?mode=resetPassword&oobCode=...` (Firebase appends its action parameters).
 
-The application requests Firebase action links that return to the matching Nexauren Hub routes. Test the generated emails with the actual deployed domain before launch.
+The application processes the Firebase action codes on these custom handler pages using `applyActionCode`, `verifyPasswordResetCode` and `confirmPasswordReset`. The `url` passed by the client SDK is a continue URL; the email template’s **Customize action URL** setting determines the page that receives the action code. Test both email types on the actual deployed domain before launch.
 
 ## 3. Enable Google Sign-In
 
