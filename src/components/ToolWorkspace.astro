@@ -117,6 +117,23 @@ const mode=tool.mode;
 <div class="audio-metric-grid"><div><span>DURATION</span><strong data-inspect-duration>—</strong></div><div><span>SAMPLE RATE</span><strong data-inspect-rate>—</strong></div><div><span>CHANNELS</span><strong data-inspect-channels>—</strong></div><div><span>PEAK LEVEL</span><strong data-inspect-peak>—</strong></div><div><span>RMS LEVEL</span><strong data-inspect-rms>—</strong></div><div><span>FRAMES</span><strong data-inspect-frames>—</strong></div></div>
 <p class="field-hint" data-inspect-hint>Choose a supported audio file to build its waveform and inspect decoded audio statistics.</p></div>}
 <p class="workspace-disclaimer">Results depend on browser support, device memory and source file. Keep your original file until you have checked the result.</p>
+
+{mode==="url-encoder"&&<div class="tool-controls utility-text-workbench">
+<label class="field-label">Text or encoded URL component<textarea data-input-text rows="7" placeholder="Paste text or percent-encoded content…"></textarea></label>
+<div class="json-actions"><button type="button" class="button button-primary" data-url-action="encode">Encode URL component →</button><button type="button" class="button button-secondary" data-url-action="decode">Decode URL component</button><button type="button" class="button button-secondary" data-copy>Copy result</button></div>
+<label class="field-label">Result<textarea data-result-text rows="7" readonly placeholder="The converted text appears here…"></textarea></label><p data-message class="result-message" role="status" aria-live="polite"></p></div>}
+{mode==="base64-converter"&&<div class="tool-controls utility-text-workbench">
+<label class="field-label">Text or Base64 value<textarea data-input-text rows="7" placeholder="Enter UTF-8 text or a Base64 string…"></textarea></label>
+<div class="json-actions"><button type="button" class="button button-primary" data-base64-action="encode">Encode to Base64 →</button><button type="button" class="button button-secondary" data-base64-action="decode">Decode Base64</button><button type="button" class="button button-secondary" data-copy>Copy result</button></div>
+<label class="field-label">Result<textarea data-result-text rows="7" readonly placeholder="The converted text appears here…"></textarea></label><p class="field-hint">Base64 is encoding, not encryption. Do not use it to protect passwords or secrets.</p><p data-message class="result-message" role="status" aria-live="polite"></p></div>}
+{mode==="slug-generator"&&<div class="tool-controls utility-text-workbench">
+<label class="field-label">Title or phrase<textarea data-input-text rows="5" placeholder="Example: How to Resize Images Online"></textarea></label>
+<div class="json-actions"><button type="button" class="button button-primary" data-generate-slug>Generate slug →</button><button type="button" class="button button-secondary" data-copy>Copy result</button></div>
+<label class="field-label">URL slug<textarea data-result-text rows="3" readonly placeholder="how-to-resize-images-online"></textarea></label><p data-message class="result-message" role="status" aria-live="polite"></p></div>}
+{mode==="uuid-generator"&&<div class="tool-controls utility-text-workbench">
+<div class="field-grid"><label class="field-label">Number of UUIDs<input data-uuid-count type="number" min="1" max="50" value="5"/></label><div><span class="control-kicker">FORMAT</span><p class="field-hint">UUID version 4 · random identifier</p></div></div>
+<div class="json-actions"><button type="button" class="button button-primary" data-generate-uuid>Generate UUIDs →</button><button type="button" class="button button-secondary" data-copy>Copy result</button></div>
+<label class="field-label">Generated identifiers<textarea data-result-text rows="8" readonly placeholder="UUIDs appear here, one per line…"></textarea></label><p data-message class="result-message" role="status" aria-live="polite"></p></div>}
 </section>
 <script>
 import {mountTool} from "../lib/tool-runtime";
