@@ -183,15 +183,36 @@ export function mountTool(root:HTMLElement){
  if(mode==="audio-trimmer"||mode==="audio-to-wav"||mode==="audio-joiner"||mode==="audio-speed-changer"||mode==="audio-inspector"){
   let decoded:AudioBuffer|null=null;
   const preview=root.querySelector<HTMLAudioElement>("[data-preview]");
+  let originalPreviewUrl:string|null=null;
+  let segmentPreviewUrl:string|null=null;
   const info=root.querySelector<HTMLElement>("[data-audio-info]");
   const formatTime=(seconds:number)=>{const m=Math.floor(seconds/60),s=Math.floor(seconds%60);return m+":"+String(s).padStart(2,"0");};
   const speed=root.querySelector<HTMLInputElement>("[data-speed]");
+  root.querySelector<HTMLButtonElement>("[data-preview-selection]")?.addEventListener("click",()=>{
+   try{
+    if(!decoded||!preview)throw new Error("Choose an audio file before previewing a selection.");
+    const start=Number(root.querySelector<HTMLInputElement>("[data-start]")?.value||0);
+    const end=Number(root.querySelector<HTMLInputElement>("[data-end]")?.value||0);
+    const blob=trimAudio(decoded,start,end);
+    if(segmentPreviewUrl)URL.revokeObjectURL(segmentPreviewUrl);
+    segmentPreviewUrl=URL.createObjectURL(blob);
+    preview.onended=()=>{
+     preview.onended=null;
+     if(originalPreviewUrl)preview.src=originalPreviewUrl;
+     if(segmentPreviewUrl){URL.revokeObjectURL(segmentPreviewUrl);segmentPreviewUrl=null;}
+    };
+    preview.src=segmentPreviewUrl;
+    preview.currentTime=0;
+    void preview.play().catch(()=>status("Use the audio player's Play button to hear this preview.",true));
+    status("Previewing selected segment. The original file is unchanged.");
+   }catch(error){catchError(error);}
+  });
   const updateSpeed=()=>{const v=Number(speed?.value||1),val=root.querySelector<HTMLElement>("[data-speed-value]"),label=root.querySelector<HTMLElement>("[data-speed-label]"),duration=root.querySelector<HTMLElement>("[data-speed-duration]");if(val)val.textContent=v.toFixed(1)+"×";if(label)label.textContent=v===1?"Normal speed":v<1?"Slower · lower pitch":"Faster · higher pitch";if(duration)duration.textContent=decoded?formatTime(decoded.duration/v):"Load audio first";};
   speed?.addEventListener("input",updateSpeed);
   fileInput?.addEventListener("change",async()=>{
    const files=allFiles();if(mode==="audio-joiner"){setSelectedList("[data-selected-list]",files);status(files.length+" clips selected. The sequence follows the file picker.");if(files.length<2)return;decoded=null;return;}
    const file=files[0];if(!file)return;status("Decoding audio…");
-   try{decoded=await decodeAudio(file);if(preview){preview.src=URL.createObjectURL(file);preview.hidden=false;}if(info){info.hidden=false;info.textContent=formatTime(decoded.duration)+" · "+decoded.sampleRate.toLocaleString()+" Hz · "+decoded.numberOfChannels+" channel(s)";}const end=root.querySelector<HTMLInputElement>("[data-end]");if(end)end.value=decoded.duration.toFixed(2);const start=root.querySelector<HTMLInputElement>("[data-start]");if(start&&Number(start.value)>=decoded.duration)start.value="0";updateSpeed();
+   try{decoded=await decodeAudio(file);if(preview){if(originalPreviewUrl)URL.revokeObjectURL(originalPreviewUrl);if(segmentPreviewUrl){URL.revokeObjectURL(segmentPreviewUrl);segmentPreviewUrl=null;}originalPreviewUrl=URL.createObjectURL(file);preview.onended=null;preview.src=originalPreviewUrl;preview.hidden=false;}if(info){info.hidden=false;info.textContent=formatTime(decoded.duration)+" · "+decoded.sampleRate.toLocaleString()+" Hz · "+decoded.numberOfChannels+" channel(s)";}const end=root.querySelector<HTMLInputElement>("[data-end]");if(end)end.value=decoded.duration.toFixed(2);const start=root.querySelector<HTMLInputElement>("[data-start]");if(start&&Number(start.value)>=decoded.duration)start.value="0";updateSpeed();
     if(mode==="audio-inspector"){const data=inspectAudio(decoded);const values:[string,string][]=[["[data-inspect-duration]",formatTime(data.duration)],["[data-inspect-rate]",data.sampleRate.toLocaleString()+" Hz"],["[data-inspect-channels]",String(data.channels)],["[data-inspect-peak]",(data.peak*100).toFixed(1)+"%"],["[data-inspect-rms]",(data.rms*100).toFixed(1)+"%"],["[data-inspect-frames]",data.frames.toLocaleString()]];values.forEach(([selector,value])=>{const el=root.querySelector<HTMLElement>(selector);if(el)el.textContent=value;});const hint=root.querySelector<HTMLElement>("[data-inspect-hint]");if(hint)hint.textContent="Peak "+(data.peak*100).toFixed(1)+"% · RMS "+(data.rms*100).toFixed(1)+"% · Levels are calculated from decoded samples.";const canvas=root.querySelector<HTMLCanvasElement>("[data-waveform]");if(canvas){const ctx=canvas.getContext("2d");if(ctx){ctx.clearRect(0,0,canvas.width,canvas.height);ctx.fillStyle="#fff1f2";ctx.fillRect(0,0,canvas.width,canvas.height);const channel=decoded.getChannelData(0),bars=canvas.width,step=Math.max(1,Math.floor(channel.length/bars));ctx.strokeStyle="#d92344";ctx.lineWidth=1.4;ctx.beginPath();for(let i=0;i<bars;i++){let peak=0;for(let j=0;j<step&&i*step+j<channel.length;j++)peak=Math.max(peak,Math.abs(channel[i*step+j]));const y=canvas.height/2,amp=Math.max(1,peak*(canvas.height*.44));ctx.moveTo(i+.5,y-amp);ctx.lineTo(i+.5,y+amp);}ctx.stroke();}}}
     status("Audio ready to inspect or export.");
    }catch(e){decoded=null;catchError(e);}
