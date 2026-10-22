@@ -9,7 +9,7 @@
     "validate:catalog": "node scripts/validate-catalog.mjs",
     "build": "npm run validate:catalog && astro build && node scripts/check-build.mjs && npm run check:seo",
     "preview": "astro preview",
-    "check:seo": "node scripts/check-seo-artifacts.mjs"
+    "check:seo": "node scripts/check-seo-artifacts.mjs && node scripts/check-site-head.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
