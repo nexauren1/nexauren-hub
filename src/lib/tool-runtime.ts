@@ -117,10 +117,42 @@ export function mountTool(root:HTMLElement){
  }
 
  if(mode==="merge-pdf"||mode==="extract-pdf-pages"||mode==="rotate-pdf-pages"||mode==="images-to-pdf"||mode==="inspect-pdf"){
-  fileInput?.addEventListener("change",()=>{const files=allFiles();if(mode==="merge-pdf"||mode==="audio-joiner")setSelectedList("[data-selected-list]",files);if(mode==="images-to-pdf"){const count=root.querySelector<HTMLElement>("[data-list-count]");if(count)count.textContent=files.length+" picture"+(files.length===1?"":"s")+" selected";}if(mode==="inspect-pdf"&&files[0])status("Selected "+files[0].name+" · "+(files[0].size/1024).toFixed(1)+" KB.");});
+  let orderedPdfs:File[]=[];
+  const renderPdfQueue=()=>{
+   const list=root.querySelector<HTMLElement>("[data-selected-list]"),count=root.querySelector<HTMLElement>("[data-list-count]");
+   if(count)count.textContent=orderedPdfs.length+" document"+(orderedPdfs.length===1?"":"s");
+   if(!list)return;
+   list.replaceChildren();
+   if(!orderedPdfs.length){const blank=document.createElement("div");blank.className="queue-empty";blank.textContent="Choose at least two PDFs, then arrange their order here.";list.append(blank);return;}
+   orderedPdfs.forEach((file,index)=>{
+    const row=document.createElement("div");row.className="selected-file-row";
+    const num=document.createElement("span");num.className="file-order";num.textContent=String(index+1).padStart(2,"0");
+    const detail=document.createElement("span");detail.className="selected-file-detail";
+    const name=document.createElement("strong");name.textContent=file.name;
+    const size=document.createElement("small");size.textContent=(file.size/1024).toFixed(1)+" KB";
+    detail.append(name,size);
+    const actions=document.createElement("div");actions.className="queue-row-actions";
+    const makeAction=(action:string,label:string,title:string,disabled:boolean)=>{
+     const control=document.createElement("button");control.type="button";control.className="queue-move-button";control.textContent=label;control.title=title;control.setAttribute("aria-label",title);control.disabled=disabled;
+     control.addEventListener("click",()=>{
+      if(action==="remove"){orderedPdfs.splice(index,1);}
+      else {const next=action==="up"?index-1:index+1;if(next<0||next>=orderedPdfs.length)return;[orderedPdfs[index],orderedPdfs[next]]=[orderedPdfs[next],orderedPdfs[index]];}
+      renderPdfQueue();
+     });
+     return control;
+    };
+    actions.append(makeAction("up","↑","Move "+file.name+" up",index===0),makeAction("down","↓","Move "+file.name+" down",index===orderedPdfs.length-1),makeAction("remove","×","Remove "+file.name,false));
+    row.append(num,detail,actions);list.append(row);
+   });
+  };
+  fileInput?.addEventListener("change",()=>{
+   const files=allFiles();
+   if(mode==="merge-pdf"){orderedPdfs=[...files];renderPdfQueue();status(orderedPdfs.length+" PDFs selected. Use the arrows to set the final page order.");}
+   if(mode==="images-to-pdf"){const count=root.querySelector<HTMLElement>("[data-list-count]");if(count)count.textContent=files.length+" picture"+(files.length===1?"":"s")+" selected";}
+   if(mode==="inspect-pdf"&&files[0])status("Selected "+files[0].name+" · "+(files[0].size/1024).toFixed(1)+" KB.");
+  });
   root.querySelectorAll<HTMLButtonElement>("[data-pdf-angle]").forEach(p=>p.addEventListener("click",()=>{root.querySelectorAll("[data-pdf-angle]").forEach(el=>el.classList.toggle("is-selected",el===p));}));
   const pageActionInputs=Array.from(root.querySelectorAll<HTMLInputElement>("[data-page-action]"));
-  const pageActionButtonLabel=()=>root.querySelector<HTMLButtonElement>("[data-run]")?.textContent;
   const updatePageAction=()=>{
    const action=pageActionInputs.find(input=>input.checked)?.value||"extract";
    if(button)button.textContent=action==="remove"?"Remove selected pages →":"Extract selected pages →";
@@ -128,7 +160,8 @@ export function mountTool(root:HTMLElement){
   pageActionInputs.forEach(input=>input.addEventListener("change",updatePageAction));
   if(mode==="extract-pdf-pages")updatePageAction();
   button?.addEventListener("click",async()=>{
-   const files=allFiles();if(!files.length){status(mode==="images-to-pdf"?"Choose at least one image first.":"Choose a source file first.",true);return;}
+   const files=mode==="merge-pdf"?orderedPdfs:allFiles();if(!files.length){status(mode==="images-to-pdf"?"Choose at least one image first.":"Choose a source file first.",true);return;}
+   if(mode==="merge-pdf"&&files.length<2){status("Choose at least two PDF files to merge.",true);return;}
    setBusy(true,"Processing…");
    try{
     if(mode==="merge-pdf"){const blob=await mergePdfs(files);makeDownload(blob,"merged-document.pdf","Combined "+files.length+" PDF files · "+(blob.size/1024).toFixed(1)+" KB.");}
