@@ -1,5 +1,7 @@
 import {
   applyActionCode,
+  reload,
+  type User,
   confirmPasswordReset,
   createUserWithEmailAndPassword,
   getRedirectResult,
@@ -81,17 +83,24 @@ document.querySelectorAll<HTMLFormElement>("[data-auth-form]").forEach((form) =>
         if (password.length < 8) throw new Error("Use a password with at least 8 characters.");
         const result = await createUserWithEmailAndPassword(firebaseAuth, email, password);
         const fullName = String(data.get("full_name") || "").trim();
-        if (fullName) await updateProfile(result.user, { displayName: fullName });
-        await sendEmailVerification(result.user, { url: callbackUrl() });
-        await signOut(firebaseAuth);
-        msg(form, "Account created. Check your inbox and verify your email before logging in.");
+        if (fullName) {
+          try { await updateProfile(result.user, { displayName: fullName }); } catch { /* The account itself is already created. */ }
+        }
+
+        // Do not sign out or send a new user back to the login page. A verification
+        // email failure must not strand an already-created account on the register form.
+        let verification = "sent";
+        try {
+          await sendEmailVerification(result.user, { url: callbackUrl() });
+        } catch {
+          verification = "failed";
+        }
+        location.replace("/dashboard/?welcome=1&verification=" + verification);
       } else if (action === "login") {
         const result = await signInWithEmailAndPassword(firebaseAuth, email, password);
-        if (!result.user.emailVerified) {
-          await signOut(firebaseAuth);
-          throw new Error("Please verify your email using the link we sent before logging in.");
-        }
-        location.assign("/dashboard/");
+        // Keep unverified users signed in and guide them from the dashboard.
+        // This prevents the login/register loop while preserving a visible verification reminder.
+        location.assign(result.user.emailVerified ? "/dashboard/" : "/dashboard/?verification=pending");
       } else if (action === "forgot") {
         await sendPasswordResetEmail(firebaseAuth, email, { url: resetUrl() });
         msg(form, "If that email is registered, a password recovery email will be sent. Check your inbox.");
@@ -161,7 +170,14 @@ if (callback) {
     try {
       if (mode === "verifyEmail" && code) {
         await applyActionCode(firebaseAuth, code);
-        msg(callback, "Email verified successfully. You can now log in.");
+        if (firebaseAuth.currentUser) {
+          await reload(firebaseAuth.currentUser);
+          if (firebaseAuth.currentUser.emailVerified) {
+            location.replace("/dashboard/?verified=1");
+            return;
+          }
+        }
+        msg(callback, "Email verified successfully. Return to the Nexauren Hub tab where you created your account. If you opened this link on another device, you can now sign in.");
         return;
       }
       // Firebase uses one custom action-handler URL across email templates.
@@ -215,26 +231,95 @@ if (reset) {
 const dashboard = document.querySelector<HTMLElement>("[data-auth-dashboard]");
 if (dashboard) {
   const firebaseAuth = auth(dashboard);
+  let activeUser: User | null = null;
+  const verificationBanner = dashboard.querySelector<HTMLElement>("[data-verification-banner]");
+  const verificationStatus = dashboard.querySelector<HTMLElement>("[data-verification-status]");
+  const updateVerificationBanner = (verified: boolean) => {
+    if (verificationBanner) verificationBanner.hidden = verified;
+    if (verified && verificationStatus) {
+      verificationStatus.textContent = "Email verified. Thanks!";
+      verificationStatus.hidden = false;
+    }
+  };
+
   if (firebaseAuth) {
     void import("firebase/auth").then(({ onAuthStateChanged }) => {
-      const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
+      let unsubscribe = () => {};
+      unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
         if (!user) {
           unsubscribe();
           location.replace("/login/");
           return;
         }
+        activeUser = user;
         const name = dashboard.querySelector<HTMLElement>("[data-user-name]");
         const email = dashboard.querySelector<HTMLElement>("[data-user-email]");
         if (name) name.textContent = user.displayName || user.email?.split("@")[0] || "there";
         if (email) email.textContent = user.email || "";
         dashboard.querySelectorAll<HTMLElement>("[data-auth-loading]").forEach((element) => { element.hidden = true; });
         dashboard.querySelectorAll<HTMLElement>("[data-auth-loaded]").forEach((element) => { element.hidden = false; });
+        updateVerificationBanner(Boolean(user.emailVerified));
+        const params = new URLSearchParams(location.search);
+        if (!user.emailVerified && params.get("verification") === "failed" && verificationStatus) {
+          verificationStatus.hidden = false;
+          verificationStatus.textContent = "Your account is ready, but the verification email could not be sent automatically. Use Resend verification email below.";
+        } else if (!user.emailVerified && params.get("welcome") === "1" && verificationStatus) {
+          verificationStatus.hidden = false;
+          verificationStatus.textContent = "Your account is ready. A verification email has been requested; you can start using the tools now.";
+        }
       });
     }).catch((error) => msg(dashboard, friendlyError(error), true));
   }
+
+  dashboard.querySelector<HTMLButtonElement>("[data-resend-verification]")?.addEventListener("click", async (event) => {
+    const button = event.currentTarget as HTMLButtonElement;
+    if (!firebaseAuth?.currentUser) {
+      msg(dashboard, "Your session has expired. Sign in again to resend the verification email.", true);
+      return;
+    }
+    busy(button, true, "Sending email…");
+    try {
+      await sendEmailVerification(firebaseAuth.currentUser, { url: callbackUrl() });
+      if (verificationStatus) {
+        verificationStatus.hidden = false;
+        verificationStatus.textContent = "Verification email sent. Check your inbox and spam folder.";
+      }
+    } catch (error) {
+      if (verificationStatus) {
+        verificationStatus.hidden = false;
+        verificationStatus.textContent = friendlyError(error);
+      }
+    } finally {
+      busy(button, false, "Resend verification email");
+    }
+  });
+
+  dashboard.querySelector<HTMLButtonElement>("[data-check-verification]")?.addEventListener("click", async (event) => {
+    const button = event.currentTarget as HTMLButtonElement;
+    if (!firebaseAuth?.currentUser) return;
+    busy(button, true, "Checking…");
+    try {
+      await reload(firebaseAuth.currentUser);
+      const user = firebaseAuth.currentUser;
+      updateVerificationBanner(Boolean(user?.emailVerified));
+      if (verificationStatus) {
+        verificationStatus.hidden = false;
+        verificationStatus.textContent = user?.emailVerified
+          ? "Email verified. Thanks!"
+          : "Not verified yet. Open the latest email from Firebase, then check again.";
+      }
+    } catch (error) {
+      if (verificationStatus) {
+        verificationStatus.hidden = false;
+        verificationStatus.textContent = friendlyError(error);
+      }
+    } finally {
+      busy(button, false, "I've verified it");
+    }
+  });
+
   dashboard.querySelectorAll<HTMLButtonElement>("[data-sign-out]").forEach((button) => {
     button.addEventListener("click", async () => {
-      const firebaseAuth = auth(dashboard);
       if (!firebaseAuth) return;
       try {
         await signOut(firebaseAuth);
