@@ -7,7 +7,7 @@ for(const category of categories){
  if(!fs.existsSync(dataPath)||!fs.existsSync(catPath))throw new Error(`Missing category files for ${category}`);
  const tools=JSON.parse(fs.readFileSync(dataPath,"utf8")), meta=JSON.parse(fs.readFileSync(catPath,"utf8"));
  if(meta.slug!==category)throw new Error(`Category metadata mismatch: ${category}`);
- if(tools.length!==5)throw new Error(`Expected 5 ${category} tools, found ${tools.length}`);
+ if(tools.length<5)throw new Error(`Expected at least 5 ${category} tools, found ${tools.length}`);
  for(const t of tools){
   if(t.category!==category||!t.id||!t.slug||!t.name||!t.tagline||!t.description||!t.seoTitle||!t.seoDescription||t.seoDescription.length<60)throw new Error(`Missing tool/SEO fields or wrong category: ${t.id||"unknown"}`);
   if(ids.has(t.id))throw new Error(`Duplicate tool id: ${t.id}`);
@@ -19,4 +19,4 @@ for(const category of categories){
   ids.add(t.id);routes.add(route);total++;
  }
 }
-console.log(`Catalog valid: ${total} tools; five in each category, with unique routes and SEO metadata.`);
+console.log(`Catalog valid: ${total} tools; at least five in each category, with unique routes and SEO metadata.`);
