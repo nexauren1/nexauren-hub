@@ -1,7 +1,6 @@
 import {
   applyActionCode,
   reload,
-  type User,
   confirmPasswordReset,
   createUserWithEmailAndPassword,
   getRedirectResult,
@@ -231,7 +230,6 @@ if (reset) {
 const dashboard = document.querySelector<HTMLElement>("[data-auth-dashboard]");
 if (dashboard) {
   const firebaseAuth = auth(dashboard);
-  let activeUser: User | null = null;
   const verificationBanner = dashboard.querySelector<HTMLElement>("[data-verification-banner]");
   const verificationStatus = dashboard.querySelector<HTMLElement>("[data-verification-status]");
   const updateVerificationBanner = (verified: boolean) => {
@@ -251,7 +249,6 @@ if (dashboard) {
           location.replace("/login/");
           return;
         }
-        activeUser = user;
         const name = dashboard.querySelector<HTMLElement>("[data-user-name]");
         const email = dashboard.querySelector<HTMLElement>("[data-user-email]");
         if (name) name.textContent = user.displayName || user.email?.split("@")[0] || "there";
