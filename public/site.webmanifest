@@ -1,1 +1,23 @@
-{"name":"Nexauren Hub","short_name":"Nexauren","description":"Free online image, PDF, text and audio tools.","start_url":"/","display":"standalone","background_color":"#090d18","theme_color":"#090d18","icons":[{"src":"/favicon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}]}
+{
+  "name": "Nexauren Hub",
+  "short_name": "Nexauren",
+  "description": "Free online tools for images, PDF, text and audio.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fbfbff",
+  "theme_color": "#8b5cf6",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
