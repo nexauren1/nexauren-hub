@@ -154,7 +154,14 @@ export function mountTool(root:HTMLElement){
  if(mode==="word-counter"){
   const input=root.querySelector<HTMLTextAreaElement>("[data-input-text]");
   const targets:Record<string,string>={words:"[data-words]",characters:"[data-characters]",noSpaces:"[data-no-spaces]",sentences:"[data-sentences]",paragraphs:"[data-paragraphs]"};
-  const update=()=>{const result=analyseText(input?.value||"");for(const [key,selector] of Object.entries(targets)){const el=root.querySelector<HTMLElement>(selector);if(el)el.textContent=String(result[key as keyof typeof result]);}};
+  const estimateMinutes=(words:number,rate:number)=>words===0?"0 min":words<rate?"<1 min":Math.ceil(words/rate)+" min";
+  const update=()=>{
+   const result=analyseText(input?.value||"");
+   for(const [key,selector] of Object.entries(targets)){const el=root.querySelector<HTMLElement>(selector);if(el)el.textContent=String(result[key as keyof typeof result]);}
+   const reading=root.querySelector<HTMLElement>("[data-reading-time]"),speaking=root.querySelector<HTMLElement>("[data-speaking-time]");
+   if(reading)reading.textContent=estimateMinutes(result.words,220);
+   if(speaking)speaking.textContent=estimateMinutes(result.words,130);
+  };
   input?.addEventListener("input",update);update();
   root.querySelector("[data-clear]")?.addEventListener("click",()=>{if(input)input.value="";update();input?.focus();});
   root.querySelector("[data-copy-input]")?.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(input?.value||"");status("Text copied.");}catch{status("Clipboard access was denied.",true);}});
