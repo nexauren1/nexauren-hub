@@ -5,7 +5,7 @@ export function encodeBase64(value: string): string {
  return btoa(binary);
 }
 export function decodeBase64(value: string): string {
- const clean = value.replace(/\\s+/gu, "");
+ const clean = value.replace(/\s+/gu, "");
  try { const binary = atob(clean); const bytes = Uint8Array.from(binary, char => char.charCodeAt(0)); return new TextDecoder("utf-8", { fatal: true }).decode(bytes); }
  catch { throw new Error("This is not valid Base64 containing UTF-8 text."); }
 }
