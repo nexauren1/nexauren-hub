@@ -134,7 +134,7 @@ document.querySelectorAll<HTMLButtonElement>("[data-google-auth]").forEach((butt
   });
 });
 
-const authPage = document.querySelector<HTMLElement>("[data-auth-form], [data-google-auth]");
+const authPage = document.querySelector<HTMLElement>(".auth-card [data-auth-form], .auth-card [data-google-auth]")?.closest<HTMLElement>(".auth-card") || document.querySelector<HTMLElement>("[data-auth-form]");
 if (authPage) {
   const firebaseAuth = auth(authPage);
   if (firebaseAuth) {
