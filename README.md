@@ -27,11 +27,17 @@ JSON registries drive all category and tool listings. Don't hard-code tool cards
 
 ## Current features
 
-- Categories: Image, PDF, Text and Audio.
-- Tools: image resizing/compression/conversion; PDF merging and page extraction; live word and character counting, case conversion and duplicate-line cleanup; audio trimming and WAV export.
-- Responsive dark UI, blue/violet accents, keyboard focus and reduced-motion support.
-- Unique metadata per page, canonical URLs, Open Graph metadata, JSON-LD, breadcrumb navigation, searchable catalogue, sitemap and robots.txt.
-- Account, login, registration, dashboard and upgrade pages are clearly marked as previews. They do not submit credentials, create accounts or take payments.
+- Categories: Image, PDF, Text and Audio, with five tools in each category.
+- Responsive light UI with red primary, blue secondary and yellow highlight colors.
+- Individual tool pages, category pages, canonical metadata, Open Graph metadata, JSON-LD, breadcrumbs, sitemap and robots.txt.
+- Account pages integrated with Firebase Authentication: email/password registration, email verification, login, Google sign-in, password recovery and sign-out.
+- Public tools remain available without an account.
+
+## Firebase Authentication
+
+Follow [docs/ACCOUNT_SETUP.md](docs/ACCOUNT_SETUP.md) to create/configure a Firebase project and set the `PUBLIC_FIREBASE_*` variables in Cloudflare Pages. Email/Password and Google providers must be enabled in Firebase Console, and deployed hostnames must be authorized. Account flows cannot work on a deployment until these steps are completed.
+
+Firebase browser configuration is public client configuration; never commit service-account JSON or private server credentials.
 
 ## Cloudflare Pages
 
@@ -39,11 +45,12 @@ Build command: `npm run build`; output directory: `dist`; Node.js: 20+. Connect 
 
 ## Production checklist
 
+- Configure Firebase Authentication and test every account flow on desktop and mobile.
 - Confirm domain and configure a monitored contact address.
 - Review legal pages for the actual operator and jurisdiction.
 - Test real tool tasks, keyboard/mobile use, file-size limits and generated outputs.
 - Verify canonical URLs, sitemap, 404 page, redirects and deployed asset paths.
 - Add analytics only after choosing a privacy-respecting setup and updating the policy.
-- Never present account or paid features as active until secure server-side implementation has been built and tested.
+- Never present paid features as active until secure server-side implementation has been built and tested.
 
 The legal pages are starting drafts, not legal advice. Browser support for file formats and large files varies.
