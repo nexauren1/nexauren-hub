@@ -14,8 +14,6 @@ import {
 } from "firebase/auth";
 import { getFirebaseAuth } from "../lib/firebase-client";
 
-type AuthRoot = ParentNode & (HTMLElement | Document);
-
 function msg(root: ParentNode, text: string, error = false) {
   const el = root.querySelector<HTMLElement>("[data-auth-message]");
   if (!el) return;
@@ -107,7 +105,12 @@ document.querySelectorAll<HTMLFormElement>("[data-auth-form]").forEach((form) =>
         window.setTimeout(() => location.assign("/login/"), 1400);
       }
     } catch (error) {
-      msg(form, friendlyError(error), true);
+      const code = typeof error === "object" && error && "code" in error ? String(error.code) : "";
+      if (action === "forgot" && code === "auth/user-not-found") {
+        msg(form, "If that email is registered, a password recovery email will be sent. Check your inbox.");
+      } else {
+        msg(form, friendlyError(error), true);
+      }
     } finally {
       busy(button, false, label);
     }
