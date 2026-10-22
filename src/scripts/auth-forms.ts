@@ -164,6 +164,17 @@ if (callback) {
         msg(callback, "Email verified successfully. You can now log in.");
         return;
       }
+      // Firebase uses one custom action-handler URL across email templates.
+      // Route password reset action codes to the existing reset form.
+      if (mode === "resetPassword" && code) {
+        const next = new URL("/reset-password/", location.origin);
+        for (const key of ["mode", "oobCode", "apiKey", "continueUrl", "lang"]) {
+          const value = key === "mode" ? mode : params.get(key);
+          if (value) next.searchParams.set(key, value);
+        }
+        location.replace(next.toString());
+        return;
+      }
       const result = await getRedirectResult(firebaseAuth);
       if (result?.user) {
         location.replace("/dashboard/");
