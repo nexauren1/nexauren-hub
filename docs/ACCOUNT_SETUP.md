@@ -41,7 +41,7 @@ In Cloudflare Pages → your project → Settings → Environment variables, add
 - `PUBLIC_FIREBASE_STORAGE_BUCKET` (optional for authentication)
 - `PUBLIC_FIREBASE_MESSAGING_SENDER_ID` (optional for authentication)
 
-Use the same variables in a local `.env` file for development. Do not commit real project credentials unnecessarily; Firebase's web config is public client configuration, but server credentials must remain secret. Trigger a new deployment after setting variables because Astro embeds public variables into the static build.
+Use the same variables in a local `.env` file for development. If you choose overrides, set all four required values together. Do not commit service-account credentials; Firebase's web config is public client configuration, but server credentials must remain secret. Trigger a new deployment after changing variables because Astro embeds public variables into the static build.
 
 ## 5. Test before announcing accounts as live
 
