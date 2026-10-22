@@ -13,7 +13,7 @@ Firebase Web App configuration is public client configuration. Never put service
 ## 2. Enable email/password and configure email actions
 
 1. Go to Authentication → Sign-in method (or Sign-in providers) and enable **Email/Password**.
-2. In Authentication → Templates, select an email template and choose **Customize action URL**. Set the custom handler URL once to `https://YOUR-DOMAIN/auth/callback/`. Firebase uses this custom action-handler URL across email templates, so do not set different handler URLs for verification and reset.
+2. In Authentication → Templates, select an email template and choose **Customize action URL**. Set the custom handler URL once to `https://YOUR-DOMAIN/auth/callback/`. Firebase uses this custom action-handler URL across email templates, so do not set different handler URLs for verification and reset. **Important:** this setting is project-wide. Changing it can affect email verification and password-reset flows for every app using Firebase Authentication in this project. If other apps need separate email flows, create a dedicated Firebase project for Nexauren Hub and use that project's Web App configuration.
 3. The shared `/auth/callback/` page handles email verification. When it receives a `resetPassword` action, it forwards the code to the existing `/reset-password/` page.
 4. The `url` passed by the browser SDK when requesting a verification or recovery email is a continue URL. The template's **Customize action URL** setting controls which page initially receives the action code.
 5. Review the sender details and email templates. Test the generated links on the real deployed domain before launch.
