@@ -1,5 +1,8 @@
 import {
   applyActionCode,
+  browserLocalPersistence,
+  browserSessionPersistence,
+  setPersistence,
   reload,
   confirmPasswordReset,
   createUserWithEmailAndPassword,
@@ -61,6 +64,11 @@ function busy(button: HTMLButtonElement | null, on: boolean, label: string) {
 }
 
 const callbackUrl = () => new URL("/auth/callback/", location.origin).toString();
+
+async function preparePersistence(firebaseAuth: ReturnType<typeof getFirebaseAuth>) {
+  try { await setPersistence(firebaseAuth, browserLocalPersistence); }
+  catch { await setPersistence(firebaseAuth, browserSessionPersistence); }
+}
 const resetUrl = () => new URL("/reset-password/", location.origin).toString();
 
 document.querySelectorAll<HTMLFormElement>("[data-auth-form]").forEach((form) => {
@@ -80,6 +88,7 @@ document.querySelectorAll<HTMLFormElement>("[data-auth-form]").forEach((form) =>
     try {
       if (action === "register") {
         if (password.length < 8) throw new Error("Use a password with at least 8 characters.");
+        await preparePersistence(firebaseAuth);
         const result = await createUserWithEmailAndPassword(firebaseAuth, email, password);
         const fullName = String(data.get("full_name") || "").trim();
         if (fullName) {
@@ -96,6 +105,7 @@ document.querySelectorAll<HTMLFormElement>("[data-auth-form]").forEach((form) =>
         }
         location.replace("/dashboard/?welcome=1&verification=" + verification);
       } else if (action === "login") {
+        await preparePersistence(firebaseAuth);
         const result = await signInWithEmailAndPassword(firebaseAuth, email, password);
         // Keep unverified users signed in and guide them from the dashboard.
         // This prevents the login/register loop while preserving a visible verification reminder.
@@ -132,6 +142,7 @@ document.querySelectorAll<HTMLButtonElement>("[data-google-auth]").forEach((butt
     if (!firebaseAuth) return;
     busy(button, true, "Connecting to Google…");
     try {
+      await preparePersistence(firebaseAuth);
       const provider = new GoogleAuthProvider();
       provider.setCustomParameters({ prompt: "select_account" });
       await signInWithRedirect(firebaseAuth, provider);
@@ -246,6 +257,14 @@ if (dashboard) {
       unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
         if (!user) {
           unsubscribe();
+          const params = new URLSearchParams(location.search);
+          if (params.get("welcome") === "1") {
+            dashboard.querySelectorAll<HTMLElement>("[data-auth-loading]").forEach((element) => { element.hidden = true; });
+            dashboard.querySelectorAll<HTMLElement>("[data-auth-loaded]").forEach((element) => { element.hidden = true; });
+            const fallback = dashboard.querySelector<HTMLElement>("[data-auth-session-fallback]");
+            if (fallback) fallback.hidden = false;
+            return;
+          }
           location.replace("/login/");
           return;
         }
