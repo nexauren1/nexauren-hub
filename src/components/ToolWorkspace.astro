@@ -79,7 +79,7 @@ const mode=tool.mode;
 {mode==="json-formatter"&&<div class="tool-controls json-workbench">
 <div class="json-editor-head"><span class="json-lights"><i></i><i></i><i></i></span><strong>JSON / EDITOR</strong><span class="json-lang-badge">JSON</span></div>
 <label class="field-label"><span class="editor-label-row">Input <small>Paste or type JSON</small></span><textarea data-input-text rows="9" spellcheck="false" class="code-textarea" placeholder={'{"name":"Nexauren","tools":["image","pdf"]}'}></textarea></label>
-<div class="json-actions"><button type="button" data-json-action="format" class="button button-primary">Beautify JSON ↴</button><button type="button" data-json-action="minify" class="button button-secondary">Minify</button><button type="button" data-copy class="button button-secondary">Copy output</button></div>
+<div class="json-actions"><button type="button" data-json-action="format" class="button button-primary">Beautify JSON ↴</button><button type="button" data-json-action="minify" class="button button-secondary">Minify</button><button type="button" data-json-action="sort" class="button button-secondary">Sort keys A–Z</button><button type="button" data-copy class="button button-secondary">Copy output</button></div>
 <div class="json-status" data-message role="status" aria-live="polite">Ready to validate JSON syntax.</div>
 <label class="field-label"><span class="editor-label-row">Output <small>Validated result</small></span><textarea data-result-text rows="9" spellcheck="false" class="code-textarea" placeholder="Formatted JSON will appear here…" readonly></textarea></label></div>}
 {mode==="text-diff"&&<div class="tool-controls diff-workbench">
