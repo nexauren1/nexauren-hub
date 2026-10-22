@@ -317,7 +317,7 @@ export function mountTool(root:HTMLElement){
  if(mode==="uuid-generator"){
   root.querySelector<HTMLButtonElement>("[data-generate-uuid]")?.addEventListener("click",()=>{
    const count=Number(root.querySelector<HTMLInputElement>("[data-uuid-count]")?.value||5),result=root.querySelector<HTMLTextAreaElement>("[data-result-text]");
-   try{if(!result)throw new Error("Output editor is unavailable.");result.value=generateUuids(count).join("\\n");status("Generated "+count+" random UUID v4 identifiers.");}catch(error){catchError(error);}
+   try{if(!result)throw new Error("Output editor is unavailable.");result.value=generateUuids(count).join("\n");status("Generated "+count+" random UUID v4 identifiers.");}catch(error){catchError(error);}
   });
  }
 
