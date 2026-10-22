@@ -5,28 +5,29 @@
     "category": "pdf",
     "name": "Merge PDF",
     "icon": "＋",
-    "tagline": "Combine multiple PDF files",
-    "description": "Combine PDF documents into one file in the order selected. Add reports, forms or document sections, then merge their pages. Processing uses pdf-lib in your browser; large PDFs may require substantial device memory.",
-    "seoTitle": "Merge PDF Files Online — Combine PDFs for Free | Nexauren",
-    "seoDescription": "Combine multiple PDF files into one document online. Choose your files and download a combined PDF in your browser, without an account.",
+    "tagline": "Combine PDFs and choose the exact page order",
+    "description": "Combine PDF documents into one file and rearrange the merge queue before exporting. Move files up or down, remove a selected file from the queue, then merge reports, forms or document sections in the order you choose. Processing uses pdf-lib in your browser; large PDFs may require substantial device memory.",
+    "seoTitle": "Merge PDF Files Online — Reorder and Combine PDFs for Free | Nexauren",
+    "seoDescription": "Merge PDF files online, reorder documents before combining them and remove unwanted files from the queue. Free in-browser PDF merger.",
     "keywords": [
       "merge PDF online",
       "combine PDF files",
+      "reorder PDF merge",
       "join PDFs",
       "PDF merger",
       "merge documents"
     ],
     "features": [
-      "Merge multiple PDFs",
-      "Create one combined document",
-      "Client-side processing",
-      "No account required"
+      "Merge multiple PDFs into one document",
+      "Move files up and down before merging",
+      "Remove files from the queue",
+      "Browser-side processing"
     ],
     "steps": [
       "Select two or more PDF files.",
-      "Check the selected file list and its order.",
-      "Select Merge PDFs and wait for processing.",
-      "Download the combined document."
+      "Use the arrows to set their final order or remove a file from the queue.",
+      "Merge the ordered documents.",
+      "Download and review the combined PDF."
     ],
     "mode": "merge-pdf"
   },
@@ -36,28 +37,29 @@
     "category": "pdf",
     "name": "Extract PDF Pages",
     "icon": "↗",
-    "tagline": "Save selected pages into a new PDF",
-    "description": "Extract specific PDF pages into a separate document. Enter page numbers and ranges such as 1, 3-5, 8. Page numbering starts at 1 and input is validated before export.",
-    "seoTitle": "Extract PDF Pages Online — Save Selected Pages | Nexauren",
-    "seoDescription": "Extract selected pages from a PDF into a new document. Use page numbers or ranges and download the result in your browser.",
+    "tagline": "Extract wanted pages or remove unwanted pages",
+    "description": "Enter PDF page numbers and ranges such as 1, 3-5, 8, then choose whether to extract only those pages into a new document or remove those pages while keeping the rest. Page numbering starts at 1, ranges are validated before export, and the source file is left unchanged.",
+    "seoTitle": "Extract or Remove PDF Pages Online — Free PDF Page Tool | Nexauren",
+    "seoDescription": "Extract selected pages from a PDF or remove unwanted pages. Use page numbers and ranges in a free browser-based PDF tool.",
     "keywords": [
       "extract PDF pages",
-      "split PDF pages",
+      "remove PDF pages",
+      "delete PDF pages",
       "save selected PDF pages",
       "PDF page extractor",
       "separate PDF pages"
     ],
     "features": [
-      "Page numbers and ranges",
-      "Preserve selected page order",
-      "Create a new PDF",
-      "No account required"
+      "Extract selected pages into a new PDF",
+      "Remove selected pages and keep the rest",
+      "Comma-separated page numbers and ranges",
+      "Prevent removal of every page"
     ],
     "steps": [
       "Choose a PDF file.",
-      "Enter page ranges, for example 1, 3-5, 8.",
-      "Extract and check the selected page count.",
-      "Download the new PDF."
+      "Enter pages or ranges, for example 1, 3-5, 8.",
+      "Choose Extract pages or Remove pages.",
+      "Export the new PDF and check the result."
     ],
     "mode": "extract-pdf-pages"
   },
