@@ -71,6 +71,18 @@ export function mountTool(root:HTMLElement){
   let ratio=1,dimensionWidth=0,dimensionHeight=0,angle=90;
   quality?.addEventListener("input",()=>{if(qValue)qValue.textContent=quality.value+"%";});
   root.querySelectorAll<HTMLButtonElement>("[data-preset]").forEach(p=>p.addEventListener("click",()=>{const [w,h]=String(p.dataset.preset).split("x").map(Number);if(width)width.value=String(w);if(height)height.value=String(h);root.querySelectorAll("[data-preset]").forEach(el=>el.classList.toggle("is-selected",el===p));}));
+  root.querySelectorAll<HTMLButtonElement>("[data-crop-ratio]").forEach(p=>p.addEventListener("click",()=>{
+   root.querySelectorAll("[data-crop-ratio]").forEach(el=>el.classList.toggle("is-selected",el===p));
+   const ratioValue=p.dataset.cropRatio||"free";
+   if(ratioValue==="free")return;
+   if(!dimensionWidth||!dimensionHeight){status("Choose an image before selecting a crop ratio.",true);return;}
+   const [rw,rh]=ratioValue.split(":").map(Number),targetRatio=rw/rh;
+   let cropWidth=dimensionWidth,cropHeight=Math.round(cropWidth/targetRatio);
+   if(cropHeight>dimensionHeight){cropHeight=dimensionHeight;cropWidth=Math.round(cropHeight*targetRatio);}
+   if(cw)cw.value=String(cropWidth);if(ch)ch.value=String(cropHeight);
+   if(x)x.value=String(Math.floor((dimensionWidth-cropWidth)/2));if(y)y.value=String(Math.floor((dimensionHeight-cropHeight)/2));
+   status("Crop ratio set to "+ratioValue+". Review the crop dimensions before exporting.");
+  }));
   root.querySelectorAll<HTMLInputElement>("[data-format-option]").forEach(el=>el.addEventListener("change",()=>{const sel=root.querySelector<HTMLSelectElement>("[data-format]");if(sel)sel.value=el.value;}));
   root.querySelectorAll<HTMLButtonElement>("[data-angle]").forEach(p=>p.addEventListener("click",()=>{angle=Number(p.dataset.angle);root.querySelectorAll("[data-angle]").forEach(el=>el.classList.toggle("is-selected",el===p));if(degreeLabel)degreeLabel.textContent=angle+"° "+(angle===180?"rotation":angle===90?"clockwise":"counter-clockwise");}));
   fileInput?.addEventListener("change",async()=>{
