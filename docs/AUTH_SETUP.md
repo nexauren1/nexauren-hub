@@ -8,7 +8,7 @@ The detailed Firebase checklist is maintained in [ACCOUNT_SETUP.md](./ACCOUNT_SE
 
 1. Create/select the Firebase project and register a Web app.
 2. Enable **Email/Password** and **Google** in Firebase Console → Authentication → Sign-in method.
-3. Add the production domain, any custom domain and `localhost` (for development) under Authentication → Settings → Authorized domains.
+3. Add the production domain, any custom domain and `localhost` (for development) under Authentication → Settings → Authorized domains. In Authentication → Templates, customize the Email address verification action URL to `https://YOUR-DOMAIN/auth/callback/` and Password reset action URL to `https://YOUR-DOMAIN/reset-password/`; Firebase appends the `mode` and `oobCode` parameters.
 4. Add these Cloudflare Pages build environment variables from the Firebase Web App config:
    - `PUBLIC_FIREBASE_API_KEY`
    - `PUBLIC_FIREBASE_AUTH_DOMAIN`
