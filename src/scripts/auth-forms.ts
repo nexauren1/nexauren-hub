@@ -82,7 +82,7 @@ document.querySelectorAll<HTMLFormElement>("[data-auth-form]").forEach((form) =>
         const result = await createUserWithEmailAndPassword(firebaseAuth, email, password);
         const fullName = String(data.get("full_name") || "").trim();
         if (fullName) await updateProfile(result.user, { displayName: fullName });
-        await sendEmailVerification(result.user, { url: callbackUrl(), handleCodeInApp: true });
+        await sendEmailVerification(result.user, { url: callbackUrl() });
         await signOut(firebaseAuth);
         msg(form, "Account created. Check your inbox and verify your email before logging in.");
       } else if (action === "login") {
@@ -93,7 +93,7 @@ document.querySelectorAll<HTMLFormElement>("[data-auth-form]").forEach((form) =>
         }
         location.assign("/dashboard/");
       } else if (action === "forgot") {
-        await sendPasswordResetEmail(firebaseAuth, email, { url: resetUrl(), handleCodeInApp: true });
+        await sendPasswordResetEmail(firebaseAuth, email, { url: resetUrl() });
         msg(form, "If that email is registered, a password recovery email will be sent. Check your inbox.");
       } else if (action === "update-password") {
         if (password.length < 8) throw new Error("Use a password with at least 8 characters.");
