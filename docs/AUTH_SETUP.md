@@ -1,40 +1,33 @@
 # Nexauren Hub — Authentication setup
 
-The site integrates Supabase Auth for email/password registration and login, email confirmation, Google OAuth, password recovery, and client-side dashboard session checks. Public online tools remain usable without an account.
+Nexauren Hub uses Firebase Authentication for email/password registration, email verification, login, Google sign-in, password recovery, and browser session checks. Public online tools remain usable without an account.
 
-## Create and configure Supabase
+The detailed Firebase checklist is maintained in [ACCOUNT_SETUP.md](./ACCOUNT_SETUP.md). This page is retained as the short authentication entry point.
 
-1. Create a Supabase project and copy its Project URL and public publishable key from Project Settings → API.
-2. Enable email/password in Authentication → Sign-in providers. For public launch, enable email confirmation and configure production SMTP; the built-in email sender may have testing limits.
-3. In Authentication → URL Configuration, set the production origin as Site URL. Add these Redirect URLs:
-   - `https://YOUR_DOMAIN/auth/callback/`
-   - `https://YOUR_DOMAIN/reset-password/`
-   - `http://localhost:4321/auth/callback/`
-   - `http://localhost:4321/reset-password/`
-4. Review confirmation and password-recovery email templates. Their links must preserve Supabase's `code` parameter and redirect to the allow-listed Nexauren URLs.
+## Required setup
 
-## Google OAuth
+1. Create/select the Firebase project and register a Web app.
+2. Enable **Email/Password** and **Google** in Firebase Console → Authentication → Sign-in method.
+3. Add the production domain, any custom domain and `localhost` (for development) under Authentication → Settings → Authorized domains.
+4. Add these Cloudflare Pages build environment variables from the Firebase Web App config:
+   - `PUBLIC_FIREBASE_API_KEY`
+   - `PUBLIC_FIREBASE_AUTH_DOMAIN`
+   - `PUBLIC_FIREBASE_PROJECT_ID`
+   - `PUBLIC_FIREBASE_APP_ID`
+   - `PUBLIC_FIREBASE_STORAGE_BUCKET` (optional for authentication)
+   - `PUBLIC_FIREBASE_MESSAGING_SENDER_ID` (optional for authentication)
+5. Redeploy the site after setting variables. Astro embeds these public client values during the build.
 
-1. Create/select a project in Google Cloud and configure Google Auth Platform / OAuth consent.
-2. Create an OAuth client with type **Web application**. Add production and local origins to Authorized JavaScript origins.
-3. In Supabase → Authentication → Sign-in providers → Google, copy the callback URL shown there (usually `https://<project-ref>.supabase.co/auth/v1/callback`) and add it to the Google OAuth client's Authorized redirect URIs.
-4. Paste the Google Client ID and Client Secret into the Supabase Google provider panel and enable it.
-5. Ensure the Nexauren callback URLs above are in Supabase's Redirect URL allow list.
+## Account flows
 
-Use the callback URL shown by your current Supabase project; do not guess the project reference.
-
-## Cloudflare Pages environment variables
-
-- `SITE_URL=https://YOUR_DOMAIN`
-- `PUBLIC_SUPABASE_URL=https://<project-ref>.supabase.co`
-- `PUBLIC_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...`
-
-Only the project URL and public publishable key belong in browser code. Never expose a service-role key, database password, or Google Client Secret in source control or any `PUBLIC_*` variable.
-
-## Test before launch
-
-Test email signup, confirmation email, password login, Google sign-in, recovery, password update, sign-out, and visiting the dashboard without a session. Configure a monitored sender address and current legal notices before collecting personal information.
+- Email registration creates the account and sends a verification email.
+- Email/password login requires a verified email address.
+- Google sign-in uses Firebase's managed redirect flow.
+- Password recovery sends a Firebase action link to the site's reset-password page.
+- Dashboard/account pages check the browser's signed-in Firebase session.
 
 ## Security boundary
 
-The site is statically rendered. The dashboard checks the signed-in session in the browser; do not treat the UI check as server-side authorization. Before adding private profile records, synced favourites or entitlements, enforce authorization in a trusted backend and enable suitable Row Level Security policies for every database table. The Upgrade page does not accept payments.
+Firebase Web App configuration is public client configuration. Never commit service-account JSON, private keys, or server credentials. The dashboard's browser session check is not server-side authorization; protect any future private records or entitlements with trusted backend authorization and appropriate security rules. The Upgrade page does not accept payments.
+
+See [Firebase Authentication setup instructions](./ACCOUNT_SETUP.md) for the full step-by-step checklist and official documentation links.
