@@ -1,33 +1,24 @@
 # Nexauren Hub — Authentication setup
 
-Nexauren Hub uses Firebase Authentication for email/password registration, email verification, login, Google sign-in, password recovery, and browser session checks. Public online tools remain usable without an account.
+Nexauren Hub uses Firebase Authentication for email/password registration, email verification, login, Google sign-in, password recovery, and browser session checks. Public online tools remain available without an account.
 
-The detailed Firebase checklist is maintained in [ACCOUNT_SETUP.md](./ACCOUNT_SETUP.md). This page is retained as the short authentication entry point.
+Follow [ACCOUNT_SETUP.md](./ACCOUNT_SETUP.md) for the full Firebase setup checklist.
 
 ## Required setup
 
-1. Create/select the Firebase project and register a Web app.
-2. Enable **Email/Password** and **Google** in Firebase Console → Authentication → Sign-in method.
-3. Add the production domain, any custom domain and `localhost` (for development) under Authentication → Settings → Authorized domains. In Authentication → Templates, customize the Email address verification action URL to `https://YOUR-DOMAIN/auth/callback/` and Password reset action URL to `https://YOUR-DOMAIN/reset-password/`; Firebase appends the `mode` and `oobCode` parameters.
-4. Add these Cloudflare Pages build environment variables from the Firebase Web App config:
-   - `PUBLIC_FIREBASE_API_KEY`
-   - `PUBLIC_FIREBASE_AUTH_DOMAIN`
-   - `PUBLIC_FIREBASE_PROJECT_ID`
-   - `PUBLIC_FIREBASE_APP_ID`
-   - `PUBLIC_FIREBASE_STORAGE_BUCKET` (optional for authentication)
-   - `PUBLIC_FIREBASE_MESSAGING_SENDER_ID` (optional for authentication)
-5. Redeploy the site after setting variables. Astro embeds these public client values during the build.
+1. Enable **Email/Password** and **Google** in Firebase Console → Authentication → Sign-in method.
+2. Add the production hostname and any custom domain actually used by the site under Authentication → Settings → Authorized domains.
+3. In Authentication → Templates, customize the email action URL once to `https://YOUR-DOMAIN/auth/callback/`. Firebase uses this shared handler across verification and password-reset email templates. The callback handles email verification and forwards reset codes to the existing `/reset-password/` page.
+4. The registered Firebase Web App configuration is already provided as a default in source. Optional Cloudflare Pages overrides are `PUBLIC_FIREBASE_API_KEY`, `PUBLIC_FIREBASE_AUTH_DOMAIN`, `PUBLIC_FIREBASE_PROJECT_ID` and `PUBLIC_FIREBASE_APP_ID`; if overrides are supplied, set all four together.
 
 ## Account flows
 
-- Email registration creates the account and sends a verification email.
-- Email/password login requires a verified email address.
+- Email registration sends a verification email.
+- Email/password login requires the email to be verified.
 - Google sign-in uses Firebase's managed redirect flow.
-- Password recovery sends a Firebase action link to the site's reset-password page.
+- Password recovery uses a Firebase action code, then the existing reset-password page.
 - Dashboard/account pages check the browser's signed-in Firebase session.
 
 ## Security boundary
 
-Firebase Web App configuration is public client configuration. Never commit service-account JSON, private keys, or server credentials. The dashboard's browser session check is not server-side authorization; protect any future private records or entitlements with trusted backend authorization and appropriate security rules. The Upgrade page does not accept payments.
-
-See [Firebase Authentication setup instructions](./ACCOUNT_SETUP.md) for the full step-by-step checklist and official documentation links.
+Firebase Web App configuration is public client configuration. Never commit service-account JSON, private keys or other server credentials. A browser session check is not server-side authorization; protect future private records and entitlements with trusted backend authorization and suitable rules. The Upgrade page does not accept payments.
