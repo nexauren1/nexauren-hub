@@ -167,7 +167,7 @@ export function mountTool(root:HTMLElement){
   root.querySelector("[data-copy-input]")?.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(input?.value||"");status("Text copied.");}catch{status("Clipboard access was denied.",true);}});
  }
  if(mode==="case-converter"){
-  root.querySelectorAll<HTMLButtonElement>("[data-case]").forEach(p=>p.addEventListener("click",()=>{const input=root.querySelector<HTMLTextAreaElement>("[data-input-text]"),result=root.querySelector<HTMLTextAreaElement>("[data-result-text]");if(result)result.value=convertCase(input?.value||"",p.dataset.case as "upper"|"lower"|"title"|"sentence");status("Text converted. Review proper names and abbreviations.");}));
+  root.querySelectorAll<HTMLButtonElement>("[data-case]").forEach(p=>p.addEventListener("click",()=>{const input=root.querySelector<HTMLTextAreaElement>("[data-input-text]"),result=root.querySelector<HTMLTextAreaElement>("[data-result-text]");if(result)result.value=convertCase(input?.value||"",p.dataset.case as "upper"|"lower"|"title"|"sentence"|"camel"|"snake"|"kebab"|"alternating");status("Text converted. Review proper names and abbreviations.");}));
  }
  if(mode==="remove-duplicate-lines"){
   button?.addEventListener("click",()=>{const input=root.querySelector<HTMLTextAreaElement>("[data-input-text]"),result=root.querySelector<HTMLTextAreaElement>("[data-result-text]");const value=input?.value||"";const res=deduplicateLines(value,!!root.querySelector<HTMLInputElement>("[data-case-sensitive]")?.checked,!!root.querySelector<HTMLInputElement>("[data-trim-lines]")?.checked);if(result)result.value=res.text;status("Removed "+res.removed+" duplicate lines from "+res.total+" input lines.");});
